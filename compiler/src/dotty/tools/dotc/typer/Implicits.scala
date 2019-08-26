@@ -1203,7 +1203,7 @@ trait Implicits { self: Typer =>
         val userDefined = userDefinedMsg(pt.typeSymbol, defn.ImplicitNotFoundAnnot).map(raw =>
           err.userDefinedErrorString(
             raw,
-            pt.typeSymbol.typeParams.map(_.name.unexpandedName.toString),
+            pt.typeSymbol.info.typeParams.map(_.paramName.unexpandedName.toString),
             pt.widenExpr.argInfos))
 
         def hiddenImplicitsAddendum: String = arg.tpe match {
