@@ -1212,52 +1212,63 @@ object Scanners {
         }
         token = EXPOLIT
       }
-      if (ch == 'd' || ch == 'D') {
-        putChar(ch)
-        nextChar()
+      if ch == 'd' || ch == 'D' then
         token = DOUBLELIT
-      }
-      else if (ch == 'f' || ch == 'F') {
         putChar(ch)
         nextChar()
+      else if ch == 'f' || ch == 'F' then
         token = FLOATLIT
-      }
+        putChar(ch)
+        nextChar()
+      else if ch == '\'' && isIdentifierStart(lookaheadChar()) then
+        nextChar()
+        val buf = StringBuilder(10)
+        while alphaidPart do
+          buf.append(ch)
+          nextChar()
+        name = termName(buf.toString)
       checkNoLetter()
     }
+
+    inline def alphaidPart: Boolean = alphaidPart(ch)
+    inline def alphaidPart(ch: Char): Boolean = isIdentifierPart(ch) && ch >= ' '
+
     def checkNoLetter(): Unit =
-      if (isIdentifierPart(ch) && ch >= ' ')
+      if (alphaidPart)
         error("Invalid literal number")
 
     /** Read a number into strVal and set base
     */
-    protected def getNumber(): Unit = {
-      while (isNumberSeparator(ch) || digit2int(ch, base) >= 0) {
+    protected def getNumber(): Unit =
+      while isNumberSeparator(ch) || digit2int(ch, base) >= 0 do
         putChar(ch)
         nextChar()
-      }
       checkNoTrailingSeparator()
       token = INTLIT
-      if (base == 10 && ch == '.') {
+      if base == 10 && ch == '.' then
         val lch = lookaheadChar()
-        if ('0' <= lch && lch <= '9') {
+        if '0' <= lch && lch <= '9' then
           putChar('.')
           nextChar()
           getFraction()
-        }
-      }
-      else (ch: @switch) match {
-        case 'e' | 'E' | 'f' | 'F' | 'd' | 'D' =>
-          if (base == 10) getFraction()
-        case 'l' | 'L' =>
-          nextChar()
-          token = LONGLIT
-        case _ =>
-      }
-
+      else
+        (ch: @switch) match
+          case 'e' | 'E' | 'f' | 'F' | 'd' | 'D' =>
+            if (base == 10) getFraction()
+          case 'l' | 'L' =>
+            token = LONGLIT
+            nextChar()
+          case '\'' =>
+            if isIdentifierStart(lookaheadChar()) then
+              nextChar()
+              val buf = StringBuilder(10)
+              while alphaidPart do
+                buf.append(ch)
+                nextChar()
+              name = termName(buf.toString)
+          case _ =>
       checkNoTrailingSeparator()
-
       setStrVal()
-    }
 
     private def finishCharLit(): Unit = {
       nextChar()

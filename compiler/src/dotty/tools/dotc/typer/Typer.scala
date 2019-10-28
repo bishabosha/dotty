@@ -507,6 +507,8 @@ class Typer extends Namer
     val digits = tree.digits
     val target = pt.dealias
     def lit(value: Any) = Literal(Constant(value)).withSpan(tree.span)
+    def (tree: Tree) applyFromDigits(digits: String, kind: untpd.NumberKind): Tree =
+      typed(desugar.applyFromDigits(untpd.TypedSplice(tree))(digits, kind), pt)
     try {
       // Special case primitive numeric types
       if (target.isRef(defn.IntClass) ||
@@ -528,23 +530,14 @@ class Typer extends Namer
         return lit(doubleFromDigits(digits))
       else if (target.isValueType && isFullyDefined(target, ForceDegree.none)) {
         // If expected type is defined with a FromDigits instance, use that one
-        val fromDigitsCls = tree.kind match {
+        val fromDigitsCls = tree.kind match
           case Whole(10) => defn.FromDigitsClass
-          case Whole(_) => defn.FromDigits_WithRadixClass
-          case Decimal => defn.FromDigits_DecimalClass
-          case Floating => defn.FromDigits_FloatingClass
-        }
+          case Whole(_)  => defn.FromDigits_WithRadixClass
+          case Decimal   => defn.FromDigits_DecimalClass
+          case Floating  => defn.FromDigits_FloatingClass
         inferImplicit(fromDigitsCls.typeRef.appliedTo(target), EmptyTree, tree.span) match {
           case SearchSuccess(arg, _, _) =>
-            val fromDigits = untpd.Select(untpd.TypedSplice(arg), nme.fromDigits).withSpan(tree.span)
-            val firstArg = Literal(Constant(digits))
-            val otherArgs = tree.kind match {
-              case Whole(r) if r != 10 => Literal(Constant(r)) :: Nil
-              case _ => Nil
-            }
-            var app: untpd.Tree = untpd.Apply(fromDigits, firstArg :: otherArgs)
-            if (ctx.mode.is(Mode.Pattern)) app = untpd.Block(Nil, app)
-            return typed(app, pt)
+            return arg.applyFromDigits(digits, tree.kind)
           case _ =>
         }
       }

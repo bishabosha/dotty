@@ -1123,9 +1123,21 @@ object Parsers {
         def digits = if (isNegated) "-" + digits0 else digits0
         if (!inType)
           token match {
-            case INTLIT  => return Number(digits, NumberKind.Whole(in.base))
-            case DECILIT => return Number(digits, NumberKind.Decimal)
-            case EXPOLIT => return Number(digits, NumberKind.Floating)
+            case INTLIT  =>
+              return if in.name == null then
+                Number(digits, NumberKind.Whole(in.base))
+              else
+                TypedNumber(digits, NumberKind.Whole(in.base), in.name)
+            case DECILIT =>
+              return if in.name == null then
+                Number(digits, NumberKind.Decimal)
+              else
+                TypedNumber(digits, NumberKind.Decimal, in.name)
+            case EXPOLIT =>
+              return if in.name == null then
+                Number(digits, NumberKind.Floating)
+              else
+                TypedNumber(digits, NumberKind.Floating, in.name)
             case _ =>
           }
         import scala.util.FromDigits._

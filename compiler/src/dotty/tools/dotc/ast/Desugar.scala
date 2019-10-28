@@ -1607,6 +1607,17 @@ object desugar {
         }
         // This is a deliberate departure from scalac, where StringContext is not rooted (See #4732)
         Apply(Select(Apply(scalaDot(nme.StringContext), strs), id), elems)
+      case TypedNumber(digits, kind, fromDigits) =>
+        import NumberKind._
+        val span = tree.span.endPos.withStart(tree.span.end - fromDigits.toString.length)
+        val fromDigitsSummoner = kind match
+          case Whole(10) => defn.FromDigits_fromDigits
+          case Whole(_)  => defn.FromDigits_fromRadixDigits
+          case Decimal   => defn.FromDigits_fromDecimalDigits
+          case Floating  => defn.FromDigits_fromFloatingDigits
+        val fromDigitsValue = Select(TypedSplice(tpd.ref(defn.NumericContextModule)), fromDigits).withSpan(span)
+        val summoned = TypedSplice(tpd.ref(fromDigitsSummoner)).applyGiven(fromDigitsValue).withSpan(tree.span)
+        return summoned.applyFromDigits(digits, kind)
       case PostfixOp(t, op) =>
         if ((ctx.mode is Mode.Type) && !isBackquoted(op) && op.name == tpnme.raw.STAR) {
           val seqType = if (ctx.compilationUnit.isJava) defn.ArrayType else defn.SeqType
@@ -1640,6 +1651,17 @@ object desugar {
     }
     desugared.withSpan(tree.span)
   }
+
+  def (tree: Tree) applyFromDigits(digits: String, kind: NumberKind)(given ctx: Context): Tree =
+    import NumberKind._
+    val fromDigits = Select(tree, nme.fromDigits).withSpan(tree.span)
+    val firstArg = Literal(Constant(digits))
+    val otherArgs = kind match
+      case Whole(r) if r != 10 => Literal(Constant(r)) :: Nil
+      case _ => Nil
+    var app: Tree = Apply(fromDigits, firstArg :: otherArgs)
+    if (ctx.mode.is(Mode.Pattern)) app = Block(Nil, app)
+    app
 
   /** Create a class definition with the same info as the refined type given by `parent`
    *  and `refinements`.

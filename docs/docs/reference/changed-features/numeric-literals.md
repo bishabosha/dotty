@@ -9,12 +9,14 @@ val x: Long = -10_000_000_000
 val y: BigInt = 0x123_abc_789_def_345_678_901
 val z: BigDecimal = 110_222_799_799.99
 
+val t = 1e-500'fd
+val u = 4000'i16
+
 (y: BigInt) match {
   case 123_456_789_012_345_678_901 =>
 }
 ```
-The syntax of numeric literals is the same as before, except there are no pre-set limits
-how large they can be.
+The syntax of numeric literals now allows for numeric types that can have unbounded digits. Additionally, an alphanumeric identifier can be used as a suffix to a literal to influence how it is typed.
 
 ### Meaning of Numeric Literals
 
@@ -25,7 +27,7 @@ The meaning of a numeric literal is determined as follows:
  - If the literal ends with `f` or `F`, it is a single precision floating point number of type `Float`.
  - If the literal ends with `d` or `D`, it is a double precision floating point number of type `Double`.
 
-In each of these cases the conversion to a number is exactly as in Scala 2 or in Java. If a numeric literal does _not_ end in one of these suffixes, its meaning is determined by the expected type:
+In each of these cases the conversion to a number is exactly as in Scala 2 or in Java. If a numeric literal has no suffix, its meaning is determined by the expected type:
 
  1. If the expected type is `Int`, `Long`, `Float`, or `Double`, the literal is
    treated as a standard literal of that type.
@@ -51,6 +53,11 @@ On the other hand,
 val x = -10_000_000_000
 ```
 gives a type error, since without an expected type `-10_000_000_000` is treated by rule (3) as an `Int` literal, but it is too large for that type.
+
+In the case that the numeric literal has an alphanumeric suffix following a `'` separator, then the following conditions hold:
+  1. The suffix is the identifier for a method on the object `scala.NumericContext`.
+  2. The type of the value referred to by the suffix is a subtype of `scala.util.FromDigits[T]`.
+  3. The type of the numeric literal is the inferred type of `T`, and its value is obtained by passing its digits to the `fromDigits` method of the suffix.
 
 ### The FromDigits Class
 
@@ -98,6 +105,16 @@ object FromDigits {
 A user-defined number type can implement one of those, which signals to the compiler
 that hexadecimal numbers, decimal points, or exponents are also accepted in literals
 for this type.
+
+To create a user-defined numeric suffix, create an extension method on `scala.NumericContext.type`:
+```scala
+given suffixes: (ctx: => NumericContext.type)
+  def bd: FromDigits.Floating[BigDecimal] = summon
+  def bi: FromDigits.WithRadix[BigInt] = summon
+
+3.14'bd          // has type BigDecimal
+1234567891011'bi // has type BigInt
+```
 
 ### Error Handling
 
@@ -156,7 +173,7 @@ object BigFloat {
 To accept `BigFloat` literals, all that's needed in addition is a given instance of type
 `FromDigits.Floating[BigFloat]`:
 ```scala
-  given FromDigits : FromDigits.Floating[BigFloat] {
+  given FromDigits: FromDigits.Floating[BigFloat] {
     def fromDigits(digits: String) = apply(digits)
   }
 } // end BigFloat
@@ -238,4 +255,22 @@ would give a compile time error message:
 3 |  val x: BigFloat = 1234.45e3333333333
   |                    ^^^^^^^^^^^^^^^^^^
   |                    exponent too large: 3333333333
+```
+
+As a use for using numeric suffixes, a complex number could be represented with familiar notation: `1 + 0.75'i`. Example:
+
+```scala
+import scala.util.FromDigits
+import Complex.given
+
+class Complex(val real: Double, val imag: Double)
+
+object Complex
+  given introduceOps: (real: Double)
+    def + (c: Complex): Complex = Complex(c.real + real, c.imag)
+
+  given numericOps: (ctx: => NumericContext.type)
+    def i: FromDigits.Floating[Complex] = digits => Complex(0.0d, FromDigits.doubleFromDigits(digits))
+
+val c = 1 + 0.75'i // has inferred type Complex
 ```

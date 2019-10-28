@@ -1,7 +1,6 @@
 package scala.util
 import scala.math.{BigInt}
 import quoted._
-import quoted.matching._
 import internal.Chars.digit2int
 import annotation.internal.sharable
 
@@ -46,6 +45,30 @@ object FromDigits {
    *  exponent `('e' | 'E')['+' | '-']digit digit*`.
    */
   trait Floating[T] extends Decimal[T]
+
+  inline def fromDigits[T](given x: FromDigits[T]): x.type = x
+
+  inline def fromRadixDigits[T](given x: FromDigits[T]): x.type =
+    ${summonDigitsImpl[x.type, FromDigits.WithRadix[T]]('x)}
+
+  inline def fromDecimalDigits[T](given x: FromDigits[T]): x.type =
+    ${summonDigitsImpl[x.type, FromDigits.Decimal[T]]('x)}
+
+  inline def fromFloatingDigits[T](given x: FromDigits[T]): x.type =
+    ${summonDigitsImpl[x.type, FromDigits.Floating[T]]('x)}
+
+  private def summonDigitsImpl[T <: FromDigits[_], U <: FromDigits[_]](x: Expr[T])(given
+      qctx: QuoteContext, t: Type[T], u: Type[U]): Expr[T] = {
+    import qctx.tasty.{Type => _, _, given}
+    def makeError = s"""|FromDigits instance is incompatible with the expected numeric kind.
+      |    Expected: ${summon[Type[U]].show} but
+      |    Found:    ${summon[Type[T]].show}.""".stripMargin
+    if typeOf[T] <:< typeOf[U] then
+      x
+    else
+      qctx.error(makeError, x)
+      '{null}.cast[T]
+  }
 
   /** The base type for exceptions that can be thrown from
    *  `fromDigits` conversions
@@ -154,11 +177,11 @@ object FromDigits {
     x
   }
 
-  given BigIntFromDigits : FromDigits.WithRadix[BigInt] {
+  given BigIntFromDigits: FromDigits.WithRadix[BigInt] {
     def fromDigits(digits: String, radix: Int): BigInt = BigInt(digits, radix)
   }
 
-  given BigDecimalFromDigits : FromDigits.Floating[BigDecimal] {
+  given BigDecimalFromDigits: FromDigits.Floating[BigDecimal] {
     def fromDigits(digits: String): BigDecimal = BigDecimal(digits)
   }
 }
