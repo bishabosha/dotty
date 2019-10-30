@@ -1,7 +1,6 @@
 package scala.util
 import scala.math.{BigInt}
 import quoted._
-import quoted.matching._
 import internal.Chars.digit2int
 import annotation.internal.sharable
 import annotation.implicitNotFound
@@ -166,11 +165,11 @@ object FromDigits {
     x
   }
 
-  given BigIntFromDigits : FromDigits.WithRadix[BigInt] {
+  given BigIntFromDigits: FromDigits.WithRadix[BigInt] {
     def fromDigits(digits: String, radix: Int): BigInt = BigInt(digits, radix)
   }
 
-  given BigDecimalFromDigits : FromDigits.Floating[BigDecimal] {
+  given BigDecimalFromDigits: FromDigits.Floating[BigDecimal] {
     def fromDigits(digits: String): BigDecimal = BigDecimal(digits)
   }
 }

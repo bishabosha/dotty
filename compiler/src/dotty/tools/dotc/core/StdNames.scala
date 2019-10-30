@@ -501,6 +501,7 @@ object StdNames {
     val next: N                 = "next"
     val nmeNewTermName: N       = "newTermName"
     val nmeNewTypeName: N       = "newTypeName"
+    val NumberType: N           = "NumberType"
     val noAutoTupling: N        = "noAutoTupling"
     val normalize: N            = "normalize"
     val notifyAll_ : N          = "notifyAll"

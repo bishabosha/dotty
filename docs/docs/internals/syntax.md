@@ -22,7 +22,7 @@ form.
 
 ```ebnf
 whiteSpace       ::=  ‘\u0020’ | ‘\u0009’ | ‘\u000D’ | ‘\u000A’
-upper            ::=  ‘A’ | … | ‘Z’ | ‘\$’ | ‘_’  “… and Unicode category Lu”
+upper            ::=  ‘A’ | … | ‘Z’ | ‘\$’ | ‘_’ | “… and Unicode category Lu”
 lower            ::=  ‘a’ | … | ‘z’ “… and Unicode category Ll”
 letter           ::=  upper | lower “… and Unicode categories Lo, Lt, Nl”
 digit            ::=  ‘0’ | … | ‘9’
@@ -38,6 +38,7 @@ op               ::=  opchar {opchar}
 varid            ::=  lower idrest
 alphaid          ::=  upper idrest
                    |  varid
+suffix           ::=  ‘'’ letter {letter | digit}
 plainid          ::=  alphaid
                    |  op
 id               ::=  plainid
@@ -46,17 +47,17 @@ id               ::=  plainid
 idrest           ::=  {letter | digit} [‘_’ op]
 quoteId          ::=  ‘'’ alphaid
 
-integerLiteral   ::=  (decimalNumeral | hexNumeral) [‘L’ | ‘l’]
+integerLiteral   ::=  (decimalNumeral | hexNumeral) [‘L’ | ‘l’ | suffix]
 decimalNumeral   ::=  ‘0’ | nonZeroDigit [{digit | ‘_’} digit]
 hexNumeral       ::=  ‘0’ (‘x’ | ‘X’) hexDigit [{hexDigit | ‘_’} hexDigit]
 nonZeroDigit     ::=  ‘1’ | … | ‘9’
 
 floatingPointLiteral
-                 ::=  [decimalNumeral] ‘.’ digit [{digit | ‘_’} digit] [exponentPart] [floatType]
-                   |  decimalNumeral exponentPart [floatType]
+                 ::=  [decimalNumeral] ‘.’ digit [{digit | ‘_’} digit] [exponentPart] [suffix | floatType]
+                   |  decimalNumeral exponentPart [suffix | floatType]
                    |  decimalNumeral floatType
 exponentPart     ::=  (‘E’ | ‘e’) [‘+’ | ‘-’] digit [{digit | ‘_’} digit]
-floatType        ::=  ‘F’ | ‘f’ | ‘D’ | ‘d’
+floatType        ::= ‘F’ | ‘f’ | ‘D’ | ‘d’
 
 booleanLiteral   ::=  ‘true’ | ‘false’
 

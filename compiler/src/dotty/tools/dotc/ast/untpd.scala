@@ -128,6 +128,7 @@ object untpd extends Trees.Instance[Untyped] with UntypedTreeInfo {
   }
 
   case class Number(digits: String, kind: NumberKind)(implicit @constructorOnly src: SourceFile) extends TermTree
+  case class TypedNumber(digits: String, kind: NumberKind, fromDigits: TermName)(implicit @constructorOnly src: SourceFile) extends TermTree
 
   enum NumberKind {
     case Whole(radix: Int)
@@ -404,6 +405,8 @@ object untpd extends Trees.Instance[Untyped] with UntypedTreeInfo {
   def Apply(fn: Tree, arg: Tree)(implicit src: SourceFile): Apply =
     Apply(fn, arg :: Nil)
 
+  def (fn: Tree) applyGiven(arg: Tree)(implicit src: SourceFile): Apply = Apply(fn, arg).setGivenApply()
+
   def ensureApplied(tpt: Tree)(implicit src: SourceFile): Tree = tpt match {
     case _: Apply => tpt
     case _ => Apply(tpt, Nil)
@@ -591,6 +594,10 @@ object untpd extends Trees.Instance[Untyped] with UntypedTreeInfo {
       case tree: Number if (digits == tree.digits) && (kind == tree.kind) => tree
       case _ => finalize(tree, untpd.Number(digits, kind))
     }
+    def TypedNumber(tree: Tree)(digits: String, kind: NumberKind, fromDigits: TermName)(implicit ctx: Context): Tree = tree match {
+      case tree: TypedNumber if (digits == tree.digits) && (kind == tree.kind) && (fromDigits == tree.fromDigits) => tree
+      case _ => finalize(tree, untpd.TypedNumber(digits, kind, fromDigits))
+    }
     def TypedSplice(tree: Tree)(splice: tpd.Tree)(implicit ctx: Context): ProxyTree = tree match {
       case tree: TypedSplice if splice `eq` tree.splice => tree
       case _ => finalize(tree, untpd.TypedSplice(splice)(ctx))
@@ -647,7 +654,7 @@ object untpd extends Trees.Instance[Untyped] with UntypedTreeInfo {
         cpy.Export(tree)(transform(expr), selectors)
       case ImportSelector(imported, renamed, bound) =>
         cpy.ImportSelector(tree)(transformSub(imported), transform(renamed), transform(bound))
-      case Number(_, _) | TypedSplice(_) =>
+      case Number(_, _) | TypedNumber(_, _, _) | TypedSplice(_) =>
         tree
       case _ =>
         super.transformMoreCases(tree)
@@ -704,7 +711,7 @@ object untpd extends Trees.Instance[Untyped] with UntypedTreeInfo {
         this(x, expr)
       case ImportSelector(imported, renamed, bound) =>
         this(this(this(x, imported), renamed), bound)
-      case Number(_, _) =>
+      case Number(_, _) | TypedNumber(_, _, _) =>
         x
       case TypedSplice(splice) =>
         this(x, splice)

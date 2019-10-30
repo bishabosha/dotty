@@ -688,12 +688,15 @@ class Definitions {
   @tu lazy val StatsModule: Symbol = ctx.requiredModule("dotty.tools.dotc.util.Stats")
     @tu lazy val Stats_doRecord: Symbol = StatsModule.requiredMethod("doRecord")
 
-  @tu lazy val FromDigitsClass: ClassSymbol           = ctx.requiredClass("scala.util.FromDigits")
-  @tu lazy val FromDigitsModule: TermSymbol           = ctx.requiredModule("scala.util.FromDigits")
+  @tu lazy val FromDigitsClass: ClassSymbol = ctx.requiredClass("scala.util.FromDigits")
+  @tu lazy val FromDigitsModule: TermSymbol = ctx.requiredModule("scala.util.FromDigits")
     @tu lazy val FromDigits_fromDigits: Symbol          = FromDigitsModule.requiredMethod(nme.fromDigits)
     @tu lazy val FromDigits_fromRadixDigits: Symbol     = FromDigitsModule.requiredMethod(nme.fromRadixDigits)
     @tu lazy val FromDigits_fromDecimalDigits: Symbol   = FromDigitsModule.requiredMethod(nme.fromDecimalDigits)
     @tu lazy val FromDigits_fromFloatingDigits: Symbol  = FromDigitsModule.requiredMethod(nme.fromFloatingDigits)
+
+  @tu lazy val NumericContextModule: TermSymbol = ctx.requiredModule("scala.NumericContext")
+    @tu lazy val NumericContext_NumberType: TypeSymbol = NumericContextModule.requiredType(nme.NumberType)
 
   @tu lazy val XMLTopScopeModule: Symbol = ctx.requiredModule("scala.xml.TopScope")
 
