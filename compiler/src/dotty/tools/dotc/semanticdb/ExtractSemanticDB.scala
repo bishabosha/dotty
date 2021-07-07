@@ -123,15 +123,23 @@ class ExtractSemanticDB extends Phase:
 
       tree match
         case tree: PackageDef =>
-          tree.stats.foreach(traverse)
           if !excludeDef(tree.pid.symbol) && tree.pid.span.hasLength then
             tree.pid match
               case tree: Select =>
-                traverse(tree.qualifier)
                 registerDefinition(tree.symbol, selectSpan(tree), Set.empty, tree.source)
+                traverse(tree.qualifier)
               case tree => registerDefinition(tree.symbol, tree.span, Set.empty, tree.source)
+
+          tree.stats.foreach(traverse)
         case tree: NamedDefTree =>
           if !tree.symbol.isAllOf(ModuleValCreationFlags) then
+            if !excludeDef(tree.symbol) && tree.span.hasLength then
+              registerDefinition(tree.symbol, tree.nameSpan, symbolKinds(tree), tree.source)
+              val privateWithin = tree.symbol.privateWithin
+              if privateWithin.exists then
+                registerUseGuarded(None, privateWithin, spanOfSymbol(privateWithin, tree.span, tree.source), tree.source)
+            else if !excludeSymbol(tree.symbol) then
+              registerSymbol(tree.symbol, symbolKinds(tree))
             tree match {
               case tree: ValDef if tree.symbol.isAllOf(EnumValue) =>
                 tree.rhs match
@@ -160,15 +168,12 @@ class ExtractSemanticDB extends Phase:
                 if !excludeChildren(tree.symbol) then
                   traverseChildren(tree)
             }
-            if !excludeDef(tree.symbol) && tree.span.hasLength then
-              registerDefinition(tree.symbol, tree.nameSpan, symbolKinds(tree), tree.source)
-              val privateWithin = tree.symbol.privateWithin
-              if privateWithin.exists then
-                registerUseGuarded(None, privateWithin, spanOfSymbol(privateWithin, tree.span, tree.source), tree.source)
-            else if !excludeSymbol(tree.symbol) then
-              registerSymbol(tree.symbol, symbolKinds(tree))
         case tree: Template =>
           val ctorSym = tree.constr.symbol
+          if !excludeDef(ctorSym) then
+            traverseAnnotsOfDefinition(ctorSym)
+            ctorParams(tree.constr.termParamss, tree.body)
+            registerDefinition(ctorSym, tree.constr.nameSpan.startPos, Set.empty, tree.source)
           for parent <- tree.parentsOrDerived if parent.span.hasLength do
             traverse(parent)
           val selfSpan = tree.self.span
@@ -178,18 +183,14 @@ class ExtractSemanticDB extends Phase:
             tree.body.foreachUntilImport(traverse).foreach(traverse) // the first import statement
           else
             tree.body.foreach(traverse)
-          if !excludeDef(ctorSym) then
-            traverseAnnotsOfDefinition(ctorSym)
-            ctorParams(tree.constr.termParamss, tree.body)
-            registerDefinition(ctorSym, tree.constr.nameSpan.startPos, Set.empty, tree.source)
         case tree: Apply =>
           @tu lazy val genParamSymbol: Name => String = tree.fun.symbol.funParamSymbol
           traverse(tree.fun)
           for arg <- tree.args do
             arg match
               case tree @ NamedArg(name, arg) =>
-                traverse(localBodies.get(arg.symbol).getOrElse(arg))
                 registerUse(genParamSymbol(name), tree.span.startPos.withEnd(tree.span.start + name.toString.length), tree.source)
+                traverse(localBodies.get(arg.symbol).getOrElse(arg))
               case _ => traverse(arg)
         case tree: Assign =>
           val qualSym = condOpt(tree.lhs) { case Select(qual, _) if qual.symbol.exists => qual.symbol }
@@ -209,12 +210,11 @@ class ExtractSemanticDB extends Phase:
           val qual = tree.qualifier
           val qualSpan = qual.span
           val sym = tree.symbol.adjustIfCtorTyparam
+          registerUseGuarded(qual.symbol.ifExists, sym, selectSpan(tree), tree.source)
           if qualSpan.exists && qualSpan.hasLength then
             traverse(qual)
-          registerUseGuarded(qual.symbol.ifExists, sym, selectSpan(tree), tree.source)
         case tree: Import =>
           if tree.span.exists && tree.span.hasLength then
-            traverseChildren(tree)
             for sel <- tree.selectors do
               val imported = sel.imported.name
               if imported != nme.WILDCARD then
@@ -222,6 +222,7 @@ class ExtractSemanticDB extends Phase:
                   registerUseGuarded(None, alt.symbol, sel.imported.span, tree.source)
                   if (alt.symbol.companionClass.exists)
                     registerUseGuarded(None, alt.symbol.companionClass, sel.imported.span, tree.source)
+            traverseChildren(tree)
         case tree: Inlined =>
           traverse(tree.call)
         case _ =>

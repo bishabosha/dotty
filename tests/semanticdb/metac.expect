@@ -59,10 +59,10 @@ advanced/C#`<init>`(). => primary ctor <init> [typeparam T ](): C[T]
 advanced/C#t(). => method t => T
 advanced/Structural# => class Structural extends Object { self: Structural => +5 decls }
 advanced/Structural#`<init>`(). => primary ctor <init> (): Structural
-advanced/Structural#s1(). => method s1 => Object { abstract val method x Int }
+advanced/Structural#s1(). => method s1 => Object {}
 advanced/Structural#s2(). => method s2 => Object { abstract val method x Int }
-advanced/Structural#s3(). => method s3 => Object { abstract method m (param x: Int): Int }
-advanced/Structural#s4(). => method s4 (param a: Int): Object { abstract val method x Int }
+advanced/Structural#s3(). => method s3 => Object {}
+advanced/Structural#s4(). => method s4 (): Object { abstract val method x Int }
 advanced/Structural#s4().(a) => param a: Int
 advanced/Test. => final object Test extends Object { self: Test.type => +11 decls }
 advanced/Test.e. => val method e Wildcards
@@ -73,7 +73,7 @@ advanced/Test.s1. => val method s1 Object { abstract val method x Int }
 advanced/Test.s1x. => val method s1x Int
 advanced/Test.s2. => val method s2 Object { abstract val method x Int }
 advanced/Test.s2x. => val method s2x Int
-advanced/Test.s3. => val method s3 Object { abstract method m (param x: Int): Int }
+advanced/Test.s3. => val method s3 Object { abstract method m (): Int }
 advanced/Test.s3x. => val method s3x Int
 advanced/Wildcards# => class Wildcards extends Object { self: Wildcards => +3 decls }
 advanced/Wildcards#`<init>`(). => primary ctor <init> (): Wildcards
@@ -81,13 +81,13 @@ advanced/Wildcards#e1(). => method e1 => List[local12] forSome { _ }
 advanced/Wildcards#e2(). => method e2 => List[local13] forSome { _ }
 local0 => abstract val method x Int
 local1 => abstract val method x Int
-local2 => val method x Int
-local3 => final class $anon extends Object { self: $anon => +2 decls }
-local5 => param x: Int
-local6 => abstract method m (param x: Int): Int
-local7 => param x: Int
-local8 => method m (param x: Int): Int
-local9 => final class $anon extends Object { self: $anon => +2 decls }
+local2 => final class $anon extends Object { self: $anon => +2 decls }
+local4 => val method x Int
+local5 => abstract method m (): Int
+local6 => param x: Int
+local7 => final class $anon extends Object { self: $anon => +2 decls }
+local9 => method m (): Int
+local10 => param x: Int
 local11 => abstract val method x Int
 local15 => val local e3: List[local16]
 local17 => val local e3x: local16
@@ -119,16 +119,16 @@ Occurrences:
 [13:6..13:8): s2 <- advanced/Structural#s2().
 [13:16..13:17): x <- local1
 [13:19..13:22): Int -> scala/Int#
-[13:37..13:38): x <- local2
+[13:37..13:38): x <- local4
 [13:40..13:43): Int -> scala/Int#
 [13:46..13:49): ??? -> scala/Predef.`???`().
 [14:6..14:8): s3 <- advanced/Structural#s3().
-[14:16..14:17): m <- local6
-[14:18..14:19): x <- local5
+[14:16..14:17): m <- local5
+[14:18..14:19): x <- local6
 [14:21..14:24): Int -> scala/Int#
 [14:27..14:30): Int -> scala/Int#
-[14:45..14:46): m <- local8
-[14:47..14:48): x <- local7
+[14:45..14:46): m <- local9
+[14:47..14:48): x <- local10
 [14:50..14:53): Int -> scala/Int#
 [14:56..14:59): Int -> scala/Int#
 [14:62..14:65): ??? -> scala/Predef.`???`().
@@ -222,7 +222,7 @@ annot/B#`<init>`().(x) => param x: Int
 annot/B#`<init>`(+1). => ctor <init> (): B
 annot/B#x. => private[this] val method x Int
 annot/M. => final object M extends Object { self: M.type => +1 decls }
-annot/M.m(). => macro m [typeparam TT ]: Int
+annot/M.m(). => macro m : Int
 annot/M.m().[TT] => typeparam TT 
 annot/T# => trait T extends Object { self: T => +1 decls }
 annot/T#`<init>`(). => primary ctor <init> (): T
@@ -300,10 +300,10 @@ example/Anonymous#Foo# => trait Foo extends Object { self: Foo => +1 decls }
 example/Anonymous#Foo#`<init>`(). => primary ctor <init> (): Foo
 example/Anonymous#`<init>`(). => primary ctor <init> (): Anonymous
 example/Anonymous#foo. => val method foo Foo
-example/Anonymous#locally(). => method locally [typeparam A ](param x: A): A
+example/Anonymous#locally(). => method locally (): <?>
 example/Anonymous#locally().(x) => param x: A
 example/Anonymous#locally().[A] => typeparam A 
-example/Anonymous#m1(). => method m1 [typeparam T ]: Nothing
+example/Anonymous#m1(). => method m1 : Nothing
 example/Anonymous#m1().[T] => typeparam T 
 example/Anonymous#m2(). => method m2 => Map[local0, List[local1] forSome { _ }] forSome { _ }
 local2 => val local x: Function1[Int, Int]
@@ -356,7 +356,7 @@ Occurrences => 5 entries
 
 Symbols:
 angiven/AnonymousGiven$package. => final package object angiven extends Object { self: angiven.type => +2 decls }
-angiven/AnonymousGiven$package.bar(). => method bar (implicit param x$1: Foo): Int
+angiven/AnonymousGiven$package.bar(). => method bar (): Int
 angiven/AnonymousGiven$package.bar().(x$1) => implicit param x$1: Foo
 angiven/Foo# => trait Foo extends Object { self: Foo => +1 decls }
 angiven/Foo#`<init>`(). => primary ctor <init> (): Foo
@@ -395,42 +395,42 @@ classes/C3#_1(). => method _1 => Int
 classes/C3#`<init>`(). => primary ctor <init> (val param x: Int): C3
 classes/C3#`<init>`().(x) => val param x: Int
 classes/C3#copy$default$1(). => method copy$default$1 => Int @uncheckedVariance
-classes/C3#copy(). => method copy (param x: Int): C3
+classes/C3#copy(). => method copy (): C3
 classes/C3#copy().(x) => param x: Int
 classes/C3#x. => val method x Int
 classes/C3. => final object C3 extends Object { self: C3.type => +4 decls }
-classes/C3.apply(). => method apply (param x: Int): C3
+classes/C3.apply(). => method apply (): C3
 classes/C3.apply().(x) => param x: Int
 classes/C3.toString(). => method toString => String
-classes/C3.unapply(). => method unapply (param x$1: C3): C3
+classes/C3.unapply(). => method unapply (): C3
 classes/C3.unapply().(x$1) => param x$1: C3
 classes/C4# => case class C4 extends Object with Product with Serializable { self: C4 => +5 decls }
 classes/C4#_1(). => method _1 => Int
 classes/C4#`<init>`(). => primary ctor <init> (val param x: Int): C4
 classes/C4#`<init>`().(x) => val param x: Int
 classes/C4#copy$default$1(). => method copy$default$1 => Int @uncheckedVariance
-classes/C4#copy(). => method copy (param x: Int): C4
+classes/C4#copy(). => method copy (): C4
 classes/C4#copy().(x) => param x: Int
 classes/C4#x. => val method x Int
 classes/C4. => final object C4 extends Object { self: C4.type => +4 decls }
-classes/C4.apply(). => method apply (param x: Int): C4
+classes/C4.apply(). => method apply (): C4
 classes/C4.apply().(x) => param x: Int
 classes/C4.toString(). => method toString => String
-classes/C4.unapply(). => method unapply (param x$1: C4): C4
+classes/C4.unapply(). => method unapply (): C4
 classes/C4.unapply().(x$1) => param x$1: C4
 classes/C6# => case class C6 extends Object with Product with Serializable { self: C6 => +5 decls }
 classes/C6#_1(). => method _1 => Int
 classes/C6#`<init>`(). => primary ctor <init> (param x: Int): C6
 classes/C6#`<init>`().(x) => param x: Int
 classes/C6#copy$default$1(). => method copy$default$1 => Int @uncheckedVariance
-classes/C6#copy(). => method copy (param x: Int): C6
+classes/C6#copy(). => method copy (): C6
 classes/C6#copy().(x) => param x: Int
 classes/C6#x. => private val method x Int
 classes/C6. => final object C6 extends Object { self: C6.type => +4 decls }
-classes/C6.apply(). => method apply (param x: Int): C6
+classes/C6.apply(). => method apply (): C6
 classes/C6.apply().(x) => param x: Int
 classes/C6.toString(). => method toString => String
-classes/C6.unapply(). => method unapply (param x$1: C6): C6
+classes/C6.unapply(). => method unapply (): C6
 classes/C6.unapply().(x$1) => param x$1: C6
 classes/C7# => class C7 extends Object { self: C7 => +2 decls }
 classes/C7#`<init>`(). => primary ctor <init> (param x: Int): C7
@@ -454,24 +454,24 @@ classes/C11#foo(). => macro foo => Int
 classes/C11#foo(). => macro foo => Int
 classes/C12# => class C12 extends Object { self: C12 => +8 decls }
 classes/C12#Context# => class Context extends Object { self: Context => +2 decls }
-classes/C12#Context#Expr# => type Expr [typeparam T ]
+classes/C12#Context#Expr# => type Expr 
 classes/C12#Context#Expr#[T] => typeparam T 
 classes/C12#Context#`<init>`(). => primary ctor <init> (): Context
 classes/C12#`<init>`(). => primary ctor <init> (): C12
-classes/C12#foo1(). => macro foo1 (param x: Int): Int
-classes/C12#foo1(). => method foo1 (param x: Int): Int
+classes/C12#foo1(). => macro foo1 (): Int
+classes/C12#foo1(). => method foo1 (): Int
 classes/C12#foo1().(x) => param x: Int
 classes/C12#foo1().(x) => param x: Int
-classes/C12#foo1Impl(). => method foo1Impl (param context: Context)(param x: context.Expr[Int]): context.Expr[Int]
+classes/C12#foo1Impl(). => method foo1Impl ()(): Expr[Int]
 classes/C12#foo1Impl().(context) => param context: Context
 classes/C12#foo1Impl().(x) => param x: context.Expr[Int]
-classes/C12#foo2(). => macro foo2 (param x: Int, param y: String): Int
-classes/C12#foo2(). => method foo2 (param x: Int, param y: String): Int
+classes/C12#foo2(). => macro foo2 (): Int
+classes/C12#foo2(). => method foo2 (): Int
 classes/C12#foo2().(x) => param x: Int
 classes/C12#foo2().(x) => param x: Int
 classes/C12#foo2().(y) => param y: String
 classes/C12#foo2().(y) => param y: String
-classes/C12#foo2Impl(). => method foo2Impl (param context: Context)(param x: context.Expr[Int], param y: context.Expr[String]): context.Expr[Int]
+classes/C12#foo2Impl(). => method foo2Impl ()(): Expr[Int]
 classes/C12#foo2Impl().(context) => param context: Context
 classes/C12#foo2Impl().(x) => param x: context.Expr[Int]
 classes/C12#foo2Impl().(y) => param y: context.Expr[String]
@@ -480,13 +480,13 @@ classes/M.C5# => class C5 extends Object { self: C5 => +2 decls }
 classes/M.C5#`<init>`(). => primary ctor <init> (param x: Int): C5
 classes/M.C5#`<init>`().(x) => param x: Int
 classes/M.C5#x. => private[this] val method x Int
-classes/M.C5(). => final implicit method C5 (param x: Int): C5
+classes/M.C5(). => final implicit method C5 (): C5
 classes/M.C5().(x) => param x: Int
 classes/N. => final object N extends Object { self: N.type => +3 decls }
 classes/N.anonClass. => val method anonClass C7
 classes/N.anonFun. => val method anonFun List[Int]
-local0 => val method local Nothing
-local1 => final class $anon extends C7 { self: $anon => +2 decls }
+local0 => final class $anon extends C7 { self: $anon => +2 decls }
+local2 => val method local Nothing
 local3 => param i: Int
 local4 => val local local: Int
 
@@ -611,7 +611,7 @@ Occurrences:
 [48:6..48:15): anonClass <- classes/N.anonClass.
 [48:22..48:24): C7 -> classes/C7#
 [48:24..48:24): -> classes/C7#`<init>`().
-[49:8..49:13): local <- local0
+[49:8..49:13): local <- local2
 [49:16..49:19): ??? -> scala/Predef.`???`().
 [51:6..51:13): anonFun <- classes/N.anonFun.
 [51:16..51:20): List -> scala/package.List.
@@ -685,13 +685,13 @@ Occurrences => 42 entries
 Symbols:
 endmarkers/Container# => class Container extends Object { self: Container => +5 decls }
 endmarkers/Container#`<init>`(). => primary ctor <init> (): Container
-endmarkers/Container#`baz_=`(). => var method baz_= (param x$1: Int): Unit
+endmarkers/Container#`baz_=`(). => var method baz_= (): Unit
 endmarkers/Container#`baz_=`().(x$1) => param x$1: Int
 endmarkers/Container#bar. => val method bar Tuple3[Int, Int, Int]
 endmarkers/Container#baz(). => var method baz Int
 endmarkers/Container#foo(). => method foo => Tuple3[Int, Int, Int]
 endmarkers/EndMarkers$package. => final package object endmarkers extends Object { self: endmarkers.type => +6 decls }
-endmarkers/EndMarkers$package.`topLevelVar_=`(). => var method topLevelVar_= (param x$1: String): Unit
+endmarkers/EndMarkers$package.`topLevelVar_=`(). => var method topLevelVar_= (): Unit
 endmarkers/EndMarkers$package.`topLevelVar_=`().(x$1) => param x$1: String
 endmarkers/EndMarkers$package.topLevelMethod(). => method topLevelMethod => String
 endmarkers/EndMarkers$package.topLevelVal. => val method topLevelVal Int
@@ -797,9 +797,9 @@ enumVal/Color.$values. => private[this] val method $values Array[Color]
 enumVal/Color.Blue. => case val static enum method Blue Color
 enumVal/Color.Green. => case val static enum method Green Color & A
 enumVal/Color.Red. => case val static enum method Red Color
-enumVal/Color.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Color
+enumVal/Color.fromOrdinal(). => method fromOrdinal (): Color
 enumVal/Color.fromOrdinal().(ordinal) => param ordinal: Int
-enumVal/Color.valueOf(). => method valueOf (param $name: String): Color
+enumVal/Color.valueOf(). => method valueOf (): Color
 enumVal/Color.valueOf().($name) => param $name: String
 enumVal/Color.values(). => method values => Array[Color]
 
@@ -850,30 +850,30 @@ _empty_/Enums.Coin.Dollar. => case val static enum method Dollar Coin
 _empty_/Enums.Coin.Nickel. => case val static enum method Nickel Coin
 _empty_/Enums.Coin.Penny. => case val static enum method Penny Coin
 _empty_/Enums.Coin.Quarter. => case val static enum method Quarter Coin
-_empty_/Enums.Coin.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Coin
+_empty_/Enums.Coin.fromOrdinal(). => method fromOrdinal (): Coin
 _empty_/Enums.Coin.fromOrdinal().(ordinal) => param ordinal: Int
-_empty_/Enums.Coin.valueOf(). => method valueOf (param $name: String): Coin
+_empty_/Enums.Coin.valueOf(). => method valueOf (): Coin
 _empty_/Enums.Coin.valueOf().($name) => param $name: String
 _empty_/Enums.Coin.values(). => method values => Array[Coin]
 _empty_/Enums.Colour# => abstract sealed enum class Colour extends Object with Enum { self: Colour => +1 decls }
 _empty_/Enums.Colour#`<init>`(). => primary ctor <init> (): Colour
 _empty_/Enums.Colour. => final object Colour extends Object { self: Colour.type => +9 decls }
-_empty_/Enums.Colour.$new(). => private[this] method $new (param _$ordinal: Int, param $name: String): Colour
+_empty_/Enums.Colour.$new(). => private[this] method $new (): Colour
 _empty_/Enums.Colour.$new().($name) => param $name: String
 _empty_/Enums.Colour.$new().(_$ordinal) => param _$ordinal: Int
 _empty_/Enums.Colour.$values. => private[this] val method $values Array[Colour]
 _empty_/Enums.Colour.Blue. => case val static enum method Blue Colour
 _empty_/Enums.Colour.Green. => case val static enum method Green Colour
 _empty_/Enums.Colour.Red. => case val static enum method Red Colour
-_empty_/Enums.Colour.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Colour
+_empty_/Enums.Colour.fromOrdinal(). => method fromOrdinal (): Colour
 _empty_/Enums.Colour.fromOrdinal().(ordinal) => param ordinal: Int
-_empty_/Enums.Colour.valueOf(). => method valueOf (param $name: String): Colour
+_empty_/Enums.Colour.valueOf(). => method valueOf (): Colour
 _empty_/Enums.Colour.valueOf().($name) => param $name: String
 _empty_/Enums.Colour.values(). => method values => Array[Colour]
 _empty_/Enums.Directions# => abstract sealed enum class Directions extends Object with Enum { self: Directions => +1 decls }
 _empty_/Enums.Directions#`<init>`(). => primary ctor <init> (): Directions
 _empty_/Enums.Directions. => final object Directions extends Object { self: Directions.type => +10 decls }
-_empty_/Enums.Directions.$new(). => private[this] method $new (param _$ordinal: Int, param $name: String): Directions
+_empty_/Enums.Directions.$new(). => private[this] method $new (): Directions
 _empty_/Enums.Directions.$new().($name) => param $name: String
 _empty_/Enums.Directions.$new().(_$ordinal) => param _$ordinal: Int
 _empty_/Enums.Directions.$values. => private[this] val method $values Array[Directions]
@@ -881,9 +881,9 @@ _empty_/Enums.Directions.East. => case val static enum method East Directions
 _empty_/Enums.Directions.North. => case val static enum method North Directions
 _empty_/Enums.Directions.South. => case val static enum method South Directions
 _empty_/Enums.Directions.West. => case val static enum method West Directions
-_empty_/Enums.Directions.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Directions
+_empty_/Enums.Directions.fromOrdinal(). => method fromOrdinal (): Directions
 _empty_/Enums.Directions.fromOrdinal().(ordinal) => param ordinal: Int
-_empty_/Enums.Directions.valueOf(). => method valueOf (param $name: String): Directions
+_empty_/Enums.Directions.valueOf(). => method valueOf (): Directions
 _empty_/Enums.Directions.valueOf().($name) => param $name: String
 _empty_/Enums.Directions.values(). => method values => Array[Directions]
 _empty_/Enums.Maybe# => abstract sealed enum class Maybe [covariant typeparam A ] extends Object with Enum { self: Maybe[A] => +2 decls }
@@ -897,21 +897,21 @@ _empty_/Enums.Maybe.Just#`<init>`(). => primary ctor <init> [covariant typeparam
 _empty_/Enums.Maybe.Just#`<init>`().(value) => val param value: A
 _empty_/Enums.Maybe.Just#copy$default$1(). => method copy$default$1 [covariant typeparam A ]: A
 _empty_/Enums.Maybe.Just#copy$default$1().[A] => typeparam A 
-_empty_/Enums.Maybe.Just#copy(). => method copy [covariant typeparam A ](param value: A): Just[A]
+_empty_/Enums.Maybe.Just#copy(). => method copy [covariant typeparam A ](): Just[A]
 _empty_/Enums.Maybe.Just#copy().(value) => param value: A
 _empty_/Enums.Maybe.Just#copy().[A] => typeparam A 
 _empty_/Enums.Maybe.Just#ordinal(). => method ordinal => Int
 _empty_/Enums.Maybe.Just#value. => val method value A
 _empty_/Enums.Maybe.Just. => final object Just extends Object { self: Just.type => +4 decls }
-_empty_/Enums.Maybe.Just.apply(). => method apply [typeparam A ](param value: A): Just[A]
+_empty_/Enums.Maybe.Just.apply(). => method apply (): Just[<?>]
 _empty_/Enums.Maybe.Just.apply().(value) => param value: A
 _empty_/Enums.Maybe.Just.apply().[A] => typeparam A 
 _empty_/Enums.Maybe.Just.toString(). => method toString => String
-_empty_/Enums.Maybe.Just.unapply(). => method unapply [typeparam A ](param x$1: Just[A]): Just[A]
+_empty_/Enums.Maybe.Just.unapply(). => method unapply (): Just[<?>]
 _empty_/Enums.Maybe.Just.unapply().(x$1) => param x$1: Just[A]
 _empty_/Enums.Maybe.Just.unapply().[A] => typeparam A 
 _empty_/Enums.Maybe.None. => case val static enum method None Maybe[Nothing]
-_empty_/Enums.Maybe.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Maybe[local0] forSome { _ }
+_empty_/Enums.Maybe.fromOrdinal(). => method fromOrdinal (): Maybe[local0] forSome { _ }
 _empty_/Enums.Maybe.fromOrdinal().(ordinal) => param ordinal: Int
 _empty_/Enums.Planet# => abstract sealed enum class Planet extends Enum[Planet] with Enum { self: Planet => +6 decls }
 _empty_/Enums.Planet#G. => private[this] final val method G 6.673E-11
@@ -921,7 +921,7 @@ _empty_/Enums.Planet#`<init>`().(radius) => param radius: Double
 _empty_/Enums.Planet#mass. => private[this] val method mass Double
 _empty_/Enums.Planet#radius. => private[this] val method radius Double
 _empty_/Enums.Planet#surfaceGravity(). => method surfaceGravity => Double
-_empty_/Enums.Planet#surfaceWeight(). => method surfaceWeight (param otherMass: Double): Double
+_empty_/Enums.Planet#surfaceWeight(). => method surfaceWeight (): Double
 _empty_/Enums.Planet#surfaceWeight().(otherMass) => param otherMass: Double
 _empty_/Enums.Planet. => final object Planet extends Object { self: Planet.type => +13 decls }
 _empty_/Enums.Planet.$values. => private[this] val method $values Array[Planet]
@@ -933,15 +933,15 @@ _empty_/Enums.Planet.Neptune. => case val static enum method Neptune Planet
 _empty_/Enums.Planet.Saturn. => case val static enum method Saturn Planet
 _empty_/Enums.Planet.Uranus. => case val static enum method Uranus Planet
 _empty_/Enums.Planet.Venus. => case val static enum method Venus Planet
-_empty_/Enums.Planet.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Planet
+_empty_/Enums.Planet.fromOrdinal(). => method fromOrdinal (): Planet
 _empty_/Enums.Planet.fromOrdinal().(ordinal) => param ordinal: Int
-_empty_/Enums.Planet.valueOf(). => method valueOf (param $name: String): Planet
+_empty_/Enums.Planet.valueOf(). => method valueOf (): Planet
 _empty_/Enums.Planet.valueOf().($name) => param $name: String
 _empty_/Enums.Planet.values(). => method values => Array[Planet]
 _empty_/Enums.Suits# => abstract sealed enum class Suits extends Object with Enum { self: Suits => +1 decls }
 _empty_/Enums.Suits#`<init>`(). => primary ctor <init> (): Suits
 _empty_/Enums.Suits. => final object Suits extends Object { self: Suits.type => +13 decls }
-_empty_/Enums.Suits.$new(). => private[this] method $new (param _$ordinal: Int, param $name: String): Suits
+_empty_/Enums.Suits.$new(). => private[this] method $new (): Suits
 _empty_/Enums.Suits.$new().($name) => param $name: String
 _empty_/Enums.Suits.$new().(_$ordinal) => param _$ordinal: Int
 _empty_/Enums.Suits.$values. => private[this] val method $values Array[Suits]
@@ -950,13 +950,13 @@ _empty_/Enums.Suits.Diamonds. => case val static enum method Diamonds Suits
 _empty_/Enums.Suits.Hearts. => case val static enum method Hearts Suits
 _empty_/Enums.Suits.Spades. => case val static enum method Spades Suits
 _empty_/Enums.Suits.derived$CanEqual. => implicit lazy val method derived$CanEqual CanEqual[Suits, Suits]
-_empty_/Enums.Suits.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Suits
+_empty_/Enums.Suits.fromOrdinal(). => method fromOrdinal (): Suits
 _empty_/Enums.Suits.fromOrdinal().(ordinal) => param ordinal: Int
-_empty_/Enums.Suits.isBlack(). => method isBlack (param suit: Suits): Boolean
+_empty_/Enums.Suits.isBlack(). => method isBlack (): Boolean
 _empty_/Enums.Suits.isBlack().(suit) => param suit: Suits
-_empty_/Enums.Suits.isRed(). => method isRed (param suit: Suits): Boolean
+_empty_/Enums.Suits.isRed(). => method isRed (): Boolean
 _empty_/Enums.Suits.isRed().(suit) => param suit: Suits
-_empty_/Enums.Suits.valueOf(). => method valueOf (param $name: String): Suits
+_empty_/Enums.Suits.valueOf(). => method valueOf (): Suits
 _empty_/Enums.Suits.valueOf().($name) => param $name: String
 _empty_/Enums.Suits.values(). => method values => Array[Suits]
 _empty_/Enums.Tag# => abstract sealed enum class Tag [typeparam A ] extends Object with Enum { self: Tag[A] => +2 decls }
@@ -966,15 +966,15 @@ _empty_/Enums.Tag. => final object Tag extends Object { self: Tag.type => +7 dec
 _empty_/Enums.Tag.$values. => private[this] val method $values Array[Tag[local1] forSome { _ }]
 _empty_/Enums.Tag.BooleanTag. => case val static enum method BooleanTag Tag[Boolean]
 _empty_/Enums.Tag.IntTag. => case val static enum method IntTag Tag[Int]
-_empty_/Enums.Tag.fromOrdinal(). => method fromOrdinal (param ordinal: Int): Tag[local4] forSome { _ }
+_empty_/Enums.Tag.fromOrdinal(). => method fromOrdinal (): Tag[local4] forSome { _ }
 _empty_/Enums.Tag.fromOrdinal().(ordinal) => param ordinal: Int
-_empty_/Enums.Tag.valueOf(). => method valueOf (param $name: String): Tag[local3] forSome { _ }
+_empty_/Enums.Tag.valueOf(). => method valueOf (): Tag[local3] forSome { _ }
 _empty_/Enums.Tag.valueOf().($name) => param $name: String
 _empty_/Enums.Tag.values(). => method values => Array[Tag[local2] forSome { _ }]
 _empty_/Enums.WeekDays# => abstract sealed enum class WeekDays extends Object with Enum { self: WeekDays => +1 decls }
 _empty_/Enums.WeekDays#`<init>`(). => primary ctor <init> (): WeekDays
 _empty_/Enums.WeekDays. => final object WeekDays extends Object { self: WeekDays.type => +13 decls }
-_empty_/Enums.WeekDays.$new(). => private[this] method $new (param _$ordinal: Int, param $name: String): WeekDays
+_empty_/Enums.WeekDays.$new(). => private[this] method $new (): WeekDays
 _empty_/Enums.WeekDays.$new().($name) => param $name: String
 _empty_/Enums.WeekDays.$new().(_$ordinal) => param _$ordinal: Int
 _empty_/Enums.WeekDays.$values. => private[this] val method $values Array[WeekDays]
@@ -985,9 +985,9 @@ _empty_/Enums.WeekDays.Sunday. => case val static enum method Sunday WeekDays
 _empty_/Enums.WeekDays.Thursday. => case val static enum method Thursday WeekDays
 _empty_/Enums.WeekDays.Tuesday. => case val static enum method Tuesday WeekDays
 _empty_/Enums.WeekDays.Wednesday. => case val static enum method Wednesday WeekDays
-_empty_/Enums.WeekDays.fromOrdinal(). => method fromOrdinal (param ordinal: Int): WeekDays
+_empty_/Enums.WeekDays.fromOrdinal(). => method fromOrdinal (): WeekDays
 _empty_/Enums.WeekDays.fromOrdinal().(ordinal) => param ordinal: Int
-_empty_/Enums.WeekDays.valueOf(). => method valueOf (param $name: String): WeekDays
+_empty_/Enums.WeekDays.valueOf(). => method valueOf (): WeekDays
 _empty_/Enums.WeekDays.valueOf().($name) => param $name: String
 _empty_/Enums.WeekDays.values(). => method values => Array[WeekDays]
 _empty_/Enums.`<:<`# => abstract sealed enum class <:< [contravariant typeparam A , typeparam B ] extends Object with Enum { self: <:<[A, B] => +3 decls }
@@ -1002,18 +1002,18 @@ _empty_/Enums.`<:<`.Refl#copy(). => method copy [typeparam C ](): Refl[C]
 _empty_/Enums.`<:<`.Refl#copy().[C] => typeparam C 
 _empty_/Enums.`<:<`.Refl#ordinal(). => method ordinal => Int
 _empty_/Enums.`<:<`.Refl. => final object Refl extends Object { self: Refl.type => +4 decls }
-_empty_/Enums.`<:<`.Refl.apply(). => method apply [typeparam C ](): Refl[C]
+_empty_/Enums.`<:<`.Refl.apply(). => method apply (): Refl[<?>]
 _empty_/Enums.`<:<`.Refl.apply().[C] => typeparam C 
 _empty_/Enums.`<:<`.Refl.toString(). => method toString => String
-_empty_/Enums.`<:<`.Refl.unapply(). => method unapply [typeparam C ](param x$1: Refl[C]): true
+_empty_/Enums.`<:<`.Refl.unapply(). => method unapply (): true
 _empty_/Enums.`<:<`.Refl.unapply().(x$1) => param x$1: Refl[C]
 _empty_/Enums.`<:<`.Refl.unapply().[C] => typeparam C 
-_empty_/Enums.`<:<`.`given_<:<_T_T`(). => final implicit method given_<:<_T_T [typeparam T ]: <:<[T, T]
+_empty_/Enums.`<:<`.`given_<:<_T_T`(). => final implicit method given_<:<_T_T : <:<[<?>, <?>]
 _empty_/Enums.`<:<`.`given_<:<_T_T`().[T] => typeparam T 
-_empty_/Enums.`<:<`.fromOrdinal(). => method fromOrdinal (param ordinal: Int): <:<[local5, local6] forSome { _; _ }
+_empty_/Enums.`<:<`.fromOrdinal(). => method fromOrdinal (): <:<[local5, local6] forSome { _; _ }
 _empty_/Enums.`<:<`.fromOrdinal().(ordinal) => param ordinal: Int
 _empty_/Enums.some1. => val method some1 Option[Int]
-_empty_/Enums.unwrap(). => method unwrap [typeparam A , typeparam B ](param opt: Option[A])(implicit param ev: <:<[A, Option[B]]): Option[B]
+_empty_/Enums.unwrap(). => method unwrap ()(): Option[<?>]
 _empty_/Enums.unwrap().(ev) => implicit param ev: <:<[A, Option[B]]
 _empty_/Enums.unwrap().(opt) => param opt: Option[A]
 _empty_/Enums.unwrap().[A] => typeparam A 
@@ -1225,8 +1225,8 @@ local0 => param x: Int
 Occurrences:
 [0:8..0:15): example <- example/
 [2:6..2:18): EtaExpansion <- example/EtaExpansion#
-[3:2..3:6): Some -> scala/Some.
 [3:2..3:2): <- example/EtaExpansion#`<init>`().
+[3:2..3:6): Some -> scala/Some.
 [3:6..3:6): -> scala/Some.apply().
 [3:10..3:13): map -> scala/Option#map().
 [3:14..3:22): identity -> scala/Predef.identity().
@@ -1249,7 +1249,7 @@ Occurrences => 25 entries
 
 Symbols:
 example/Example. => final object Example extends Object { self: Example.type => +3 decls }
-example/Example.main(). => method main (param args: Array[String]): Unit
+example/Example.main(). => method main (): Unit
 example/Example.main().(args) => param args: Array[String]
 example/Example.x. => val method x ClassTag[Int]
 local0 => selfparam self: Example.type
@@ -1294,21 +1294,21 @@ Occurrences => 40 entries
 
 Symbols:
 ext/Extension$package. => final package object ext extends Object { self: ext.type => +6 decls }
-ext/Extension$package.`#*#`(). => method #*# (param s: String)(param i: Int): Tuple2[String, Int]
+ext/Extension$package.`#*#`(). => method #*# ()(): Tuple2[String, Int]
 ext/Extension$package.`#*#`().(i) => param i: Int
 ext/Extension$package.`#*#`().(s) => param s: String
 ext/Extension$package.a. => val method a Int
 ext/Extension$package.c. => val method c Tuple2[String, Int]
-ext/Extension$package.foo(). => method foo (param s: String): Int
+ext/Extension$package.foo(). => method foo (): Int
 ext/Extension$package.foo().(s) => param s: String
-ext/Extension$package.readInto(). => method readInto [typeparam T ](param s: String)(implicit param x$2: Read[T]): Option[T]
+ext/Extension$package.readInto(). => method readInto ()(): Option[<?>]
 ext/Extension$package.readInto().(s) => param s: String
 ext/Extension$package.readInto().(x$2) => implicit param x$2: Read[T]
 ext/Extension$package.readInto().[T] => typeparam T 
 ext/Read# => trait Read [covariant typeparam T ] extends Object { self: Read[T] => +3 decls }
 ext/Read#[T] => covariant typeparam T 
 ext/Read#`<init>`(). => primary ctor <init> [covariant typeparam T ](): Read[T]
-ext/Read#fromString(). => abstract method fromString (param s: String): Option[T]
+ext/Read#fromString(). => abstract method fromString (): Option[T]
 ext/Read#fromString().(s) => param s: String
 
 Occurrences:
@@ -1433,8 +1433,8 @@ Occurrences:
 [19:15..19:15): -> scala/Tuple2.apply().
 [19:15..19:16): a -> local4
 [19:18..19:19): b -> local5
-[19:21..19:21): -> scala/collection/IterableOps#withFilter().
 [19:21..19:21): -> scala/collection/WithFilter#withFilter().
+[19:21..19:21): -> scala/collection/IterableOps#withFilter().
 [21:6..21:6): -> scala/Tuple4.apply().
 [21:6..21:7): a -> local4
 [22:6..22:7): b -> local5
@@ -1485,28 +1485,28 @@ a/b/Givens. => final object Givens extends Object { self: Givens.type => +12 dec
 a/b/Givens.Monoid# => trait Monoid [typeparam A ] extends Object { self: Monoid[A] => +4 decls }
 a/b/Givens.Monoid#[A] => typeparam A 
 a/b/Givens.Monoid#`<init>`(). => primary ctor <init> [typeparam A ](): Monoid[A]
-a/b/Givens.Monoid#combine(). => abstract method combine (param x: A)(param y: A): A
+a/b/Givens.Monoid#combine(). => abstract method combine ()(): A
 a/b/Givens.Monoid#combine().(x) => param x: A
 a/b/Givens.Monoid#combine().(y) => param y: A
 a/b/Givens.Monoid#empty(). => abstract method empty => A
-a/b/Givens.foo(). => method foo [typeparam A ](implicit param A: Monoid[A]): A
+a/b/Givens.foo(). => method foo (): <?>
 a/b/Givens.foo().(A) => implicit param A: Monoid[A]
 a/b/Givens.foo().[A] => typeparam A 
 a/b/Givens.given_Monoid_String. => final implicit object given_Monoid_String extends Object with Monoid[String] { self: given_Monoid_String.type => +3 decls }
-a/b/Givens.given_Monoid_String.combine(). => method combine (param x: String)(param y: String): String
+a/b/Givens.given_Monoid_String.combine(). => method combine ()(): String
 a/b/Givens.given_Monoid_String.combine().(x) => param x: String
 a/b/Givens.given_Monoid_String.combine().(y) => param y: String
 a/b/Givens.given_Monoid_String.empty(). => method empty => String
 a/b/Givens.goodbye1. => val method goodbye1 String
 a/b/Givens.hello1. => val method hello1 String
 a/b/Givens.int2String(). => final implicit macro int2String => Conversion[Int, String]
-a/b/Givens.sayGoodbye(). => method sayGoodbye [typeparam B ](param any: B): String
+a/b/Givens.sayGoodbye(). => method sayGoodbye (): String
 a/b/Givens.sayGoodbye().(any) => param any: B
 a/b/Givens.sayGoodbye().[B] => typeparam B 
-a/b/Givens.sayHello(). => method sayHello [typeparam A ](param any: A): String
+a/b/Givens.sayHello(). => method sayHello (): String
 a/b/Givens.sayHello().(any) => param any: A
 a/b/Givens.sayHello().[A] => typeparam A 
-a/b/Givens.saySoLong(). => method saySoLong [typeparam B ](param any: B): String
+a/b/Givens.saySoLong(). => method saySoLong (): String
 a/b/Givens.saySoLong().(any) => param any: B
 a/b/Givens.saySoLong().[B] => typeparam B 
 a/b/Givens.soLong1. => val method soLong1 String
@@ -1553,8 +1553,8 @@ Occurrences:
 [18:33..18:34): y <- a/b/Givens.Monoid#combine().(y)
 [18:36..18:37): A -> a/b/Givens.Monoid#[A]
 [18:40..18:41): A -> a/b/Givens.Monoid#[A]
-[20:8..20:14): Monoid -> a/b/Givens.Monoid#
 [20:8..20:27): Monoid[String] with <- a/b/Givens.given_Monoid_String.
+[20:8..20:14): Monoid -> a/b/Givens.Monoid#
 [20:15..20:21): String -> scala/Predef.String#
 [21:8..21:13): empty <- a/b/Givens.given_Monoid_String.empty().
 [22:15..22:16): x <- a/b/Givens.given_Monoid_String.combine().(x)
@@ -1602,19 +1602,19 @@ example/ImplicitConversion#b. => val method b Long
 example/ImplicitConversion#char. => val method char Char
 example/ImplicitConversion#message. => val method message String
 example/ImplicitConversion#number. => val method number Int
-example/ImplicitConversion#string2Number(). => implicit method string2Number (param string: String): Int
+example/ImplicitConversion#string2Number(). => implicit method string2Number (): Int
 example/ImplicitConversion#string2Number().(string) => param string: String
 example/ImplicitConversion#tuple. => val method tuple Tuple2[Int, Int]
 example/ImplicitConversion#x. => val method x Int
 example/ImplicitConversion. => final object ImplicitConversion extends Object { self: ImplicitConversion.type => +6 decls }
 example/ImplicitConversion.newAny2stringadd# => final class newAny2stringadd [typeparam A ] extends AnyVal { self: newAny2stringadd[A] => +4 decls }
 example/ImplicitConversion.newAny2stringadd#[A] => typeparam A 
-example/ImplicitConversion.newAny2stringadd#`+`(). => method + (param other: String): String
+example/ImplicitConversion.newAny2stringadd#`+`(). => method + (): String
 example/ImplicitConversion.newAny2stringadd#`+`().(other) => param other: String
 example/ImplicitConversion.newAny2stringadd#`<init>`(). => primary ctor <init> [typeparam A ](param self: A): newAny2stringadd[A]
 example/ImplicitConversion.newAny2stringadd#`<init>`().(self) => param self: A
 example/ImplicitConversion.newAny2stringadd#self. => private val method self A
-example/ImplicitConversion.newAny2stringadd(). => final implicit method newAny2stringadd [typeparam A ](param self: A): newAny2stringadd[A]
+example/ImplicitConversion.newAny2stringadd(). => final implicit method newAny2stringadd (): newAny2stringadd[<?>]
 example/ImplicitConversion.newAny2stringadd().(self) => param self: A
 example/ImplicitConversion.newAny2stringadd().[A] => typeparam A 
 example/ImplicitConversion.newAny2stringadd. => final object newAny2stringadd extends Object { self: newAny2stringadd.type => +2 decls }
@@ -1719,7 +1719,7 @@ example/InstrumentTyper#AnnotatedType# => type AnnotatedType  = Int @param
 example/InstrumentTyper#`<init>`(). => primary ctor <init> (): InstrumentTyper
 example/InstrumentTyper#all(). => method all => List[Matchable]
 example/InstrumentTyper#clazzOf. => final val method clazzOf Option[Int]
-example/InstrumentTyper#singletonType(). => method singletonType (param x: Predef.type): Nothing
+example/InstrumentTyper#singletonType(). => method singletonType (): Nothing
 example/InstrumentTyper#singletonType().(x) => param x: Predef.type
 local0 => selfparam self: AnyRef
 
@@ -1738,8 +1738,8 @@ Occurrences:
 [5:7..5:12): types -> types/
 [5:13..5:17): Test -> types/Test.
 [7:6..7:21): InstrumentTyper <- example/InstrumentTyper#
-[7:24..7:28): self <- local0
 [7:24..7:24): <- example/InstrumentTyper#`<init>`().
+[7:24..7:28): self <- local0
 [7:30..7:36): AnyRef -> scala/AnyRef#
 [8:6..8:9): all <- example/InstrumentTyper#all().
 [8:12..8:16): List -> scala/package.List.
@@ -1802,10 +1802,10 @@ givens/InventedNames$package.e. => val method e Char
 givens/InventedNames$package.f. => val method f Float
 givens/InventedNames$package.g. => val method g Long
 givens/InventedNames$package.given_Char. => final implicit lazy val method given_Char Char
-givens/InventedNames$package.given_Double(). => final implicit method given_Double (implicit param x$1: Int): Double
+givens/InventedNames$package.given_Double(). => final implicit method given_Double (): Double
 givens/InventedNames$package.given_Double().(x$1) => implicit param x$1: Int
 givens/InventedNames$package.given_Float. => final implicit lazy val method given_Float Float
-givens/InventedNames$package.given_List_T(). => final implicit method given_List_T [typeparam T ]: List[T]
+givens/InventedNames$package.given_List_T(). => final implicit method given_List_T : List[<?>]
 givens/InventedNames$package.given_List_T().[T] => typeparam T 
 givens/InventedNames$package.given_String. => final implicit lazy val method given_String String
 givens/InventedNames$package.given_X. => final implicit object given_X extends Object with X { self: given_X.type => +2 decls }
@@ -1815,13 +1815,13 @@ givens/InventedNames$package.given_Y#`<init>`(). => primary ctor <init> ()(impli
 givens/InventedNames$package.given_Y#`<init>`().(x$1) => implicit val param x$1: X
 givens/InventedNames$package.given_Y#doY(). => method doY => String
 givens/InventedNames$package.given_Y#x$1. => protected implicit val method x$1 X
-givens/InventedNames$package.given_Y(). => final implicit method given_Y (implicit param x$1: X): given_Y
+givens/InventedNames$package.given_Y(). => final implicit method given_Y (): given_Y
 givens/InventedNames$package.given_Y().(x$1) => implicit param x$1: X
 givens/InventedNames$package.given_Z_T# => class given_Z_T [typeparam T ] extends Object with Z[T] { self: given_Z_T[T] => +3 decls }
 givens/InventedNames$package.given_Z_T#[T] => typeparam T 
 givens/InventedNames$package.given_Z_T#`<init>`(). => primary ctor <init> [typeparam T ](): given_Z_T[T]
 givens/InventedNames$package.given_Z_T#doZ(). => method doZ => List[T]
-givens/InventedNames$package.given_Z_T(). => final implicit method given_Z_T [typeparam T ]: given_Z_T[T]
+givens/InventedNames$package.given_Z_T(). => final implicit method given_Z_T : given_Z_T[<?>]
 givens/InventedNames$package.given_Z_T().[T] => typeparam T 
 givens/InventedNames$package.intValue. => final implicit lazy val method intValue Int
 givens/InventedNames$package.x. => val method x given_X.type
@@ -1856,8 +1856,8 @@ Occurrences:
 [9:16..9:17): T -> givens/Z#[T]
 [13:6..13:14): intValue <- givens/InventedNames$package.intValue.
 [13:16..13:19): Int -> scala/Int#
-[14:6..14:12): String -> scala/Predef.String#
 [14:6..14:6): <- givens/InventedNames$package.given_String.
+[14:6..14:12): String -> scala/Predef.String#
 [15:6..15:6): <- givens/InventedNames$package.given_Double().
 [15:13..15:16): Int -> scala/Int#
 [15:19..15:25): Double -> scala/Double#
@@ -1872,15 +1872,15 @@ Occurrences:
 [18:21..18:26): Float -> scala/Float#
 [19:7..19:10): * * <- givens/InventedNames$package.`* *`.
 [19:13..19:17): Long -> scala/Long#
-[21:6..21:7): X -> givens/X#
 [21:6..22:0): <- givens/InventedNames$package.given_X.
+[21:6..21:7): X -> givens/X#
 [22:6..22:9): doX <- givens/InventedNames$package.given_X.doX().
 [24:13..24:14): X -> givens/X#
 [24:13..24:13): <- givens/InventedNames$package.given_Y#`<init>`().
 [24:17..24:18): Y -> givens/Y#
 [25:6..25:9): doY <- givens/InventedNames$package.given_Y#doY().
-[27:7..27:8): T <- givens/InventedNames$package.given_Z_T#[T]
 [27:7..27:7): <- givens/InventedNames$package.given_Z_T#`<init>`().
+[27:7..27:8): T <- givens/InventedNames$package.given_Z_T#[T]
 [27:11..27:12): Z -> givens/Z#
 [27:13..27:14): T -> givens/InventedNames$package.given_Z_T#[T]
 [28:6..28:9): doZ <- givens/InventedNames$package.given_Z_T#doZ().
@@ -1979,22 +1979,22 @@ Symbols:
 example/Local# => class Local extends Object { self: Local => +2 decls }
 example/Local#`<init>`(). => primary ctor <init> (): Local
 example/Local#a(). => method a (): Int
-local0 => typeparam A 
-local1 => param a: A
-local2 => local id: [typeparam A ](param a: A): A
+local0 => local id: (): <?>
+local1 => typeparam A 
+local2 => param a: A
 
 Occurrences:
 [0:8..0:15): example <- example/
 [2:6..2:11): Local <- example/Local#
 [3:2..3:2): <- example/Local#`<init>`().
 [3:6..3:7): a <- example/Local#a().
-[4:8..4:10): id <- local2
-[4:11..4:12): A <- local0
-[4:14..4:15): a <- local1
-[4:17..4:18): A -> local0
-[4:21..4:22): A -> local0
-[4:25..4:26): a -> local1
-[5:4..5:6): id -> local2
+[4:8..4:10): id <- local0
+[4:11..4:12): A <- local1
+[4:14..4:15): a <- local2
+[4:17..4:18): A -> local1
+[4:21..4:22): A -> local1
+[4:25..4:26): a -> local2
+[5:4..5:6): id -> local0
 
 expect/Locals.scala
 -------------------
@@ -2049,8 +2049,8 @@ Occurrences:
 [2:7..2:10): com -> com/
 [2:11..2:17): javacp -> com/javacp/
 [4:6..4:15): MetacJava <- example/MetacJava#
-[5:2..5:8): javacp -> com/javacp/
 [5:2..5:2): <- example/MetacJava#`<init>`().
+[5:2..5:8): javacp -> com/javacp/
 [5:9..5:18): MetacJava -> com/javacp/MetacJava#
 [5:19..5:30): StaticInner -> com/javacp/MetacJava#StaticInner#
 [5:31..5:39): isStatic -> com/javacp/MetacJava#StaticInner#isStatic().
@@ -2234,7 +2234,7 @@ Occurrences => 156 entries
 
 Symbols:
 example/Methods# => class Methods [typeparam T ] extends Object { self: Methods[T] => +44 decls }
-example/Methods#AList# => type AList [typeparam T ] = List[T]
+example/Methods#AList# => type AList  = List[<?>]
 example/Methods#AList#[T] => typeparam T 
 example/Methods#List# => class List [typeparam T ] extends Object { self: List[T] => +2 decls }
 example/Methods#List#[T] => typeparam T 
@@ -2244,71 +2244,71 @@ example/Methods#`<init>`(). => primary ctor <init> [typeparam T ](): Methods[T]
 example/Methods#`m8().`(). => method m8(). (): Nothing
 example/Methods#`m9().`# => class m9(). extends Object { self: m9(). => +1 decls }
 example/Methods#`m9().`#`<init>`(). => primary ctor <init> (): m9().
-example/Methods#`m20_=`(). => var method m20_= (param x$1: m17.type): Unit
+example/Methods#`m20_=`(). => var method m20_= (): Unit
 example/Methods#`m20_=`().(x$1) => param x$1: m17.type
 example/Methods#m1(). => method m1 => Nothing
 example/Methods#m2(). => method m2 (): Nothing
-example/Methods#m3(). => method m3 (param x: Int): Nothing
+example/Methods#m3(). => method m3 (): Nothing
 example/Methods#m3().(x) => param x: Int
-example/Methods#m4(). => method m4 (param x: Int)(param y: Int): Nothing
+example/Methods#m4(). => method m4 ()(): Nothing
 example/Methods#m4().(x) => param x: Int
 example/Methods#m4().(y) => param y: Int
-example/Methods#m5(). => method m5 (param x: String): Nothing
+example/Methods#m5(). => method m5 (): Nothing
 example/Methods#m5().(x) => param x: String
-example/Methods#m5(+1). => method m5 (param x: Int): Nothing
+example/Methods#m5(+1). => method m5 (): Nothing
 example/Methods#m5(+1).(x) => param x: Int
-example/Methods#m6(). => method m6 (param x: Int): Nothing
+example/Methods#m6(). => method m6 (): Nothing
 example/Methods#m6().(x) => param x: Int
-example/Methods#m6(+1). => method m6 (param x: List[T]): Nothing
+example/Methods#m6(+1). => method m6 (): Nothing
 example/Methods#m6(+1).(x) => param x: List[T]
-example/Methods#m6(+2). => method m6 (param x: List[T]): Nothing
+example/Methods#m6(+2). => method m6 (): Nothing
 example/Methods#m6(+2).(x) => param x: List[T]
-example/Methods#m7(). => method m7 [typeparam U ](param c: Methods[T], param l: List[U])(): Nothing
+example/Methods#m7(). => method m7 ()(): Nothing
 example/Methods#m7().(c) => param c: Methods[T]
 example/Methods#m7().(l) => param l: List[U]
 example/Methods#m7().[U] => typeparam U 
-example/Methods#m9(). => method m9 (param x: m9().): Nothing
+example/Methods#m9(). => method m9 (): Nothing
 example/Methods#m9().(x) => param x: m9().
-example/Methods#m10(). => method m10 (param x: List[T]): Nothing
+example/Methods#m10(). => method m10 (): Nothing
 example/Methods#m10().(x) => param x: List[T]
-example/Methods#m11(). => method m11 (param x: Predef.type): Nothing
+example/Methods#m11(). => method m11 (): Nothing
 example/Methods#m11().(x) => param x: Predef.type
-example/Methods#m11(+1). => method m11 (param x: Example.type): Nothing
+example/Methods#m11(+1). => method m11 (): Nothing
 example/Methods#m11(+1).(x) => param x: Example.type
-example/Methods#m12a(). => method m12a (param x: Object): Nothing
+example/Methods#m12a(). => method m12a (): Nothing
 example/Methods#m12a().(x) => param x: Object
-example/Methods#m12b(). => method m12b (param x: Object { abstract val method x Int }): Nothing
-example/Methods#m12b().(x) => param x: Object { abstract val method x Int }
-example/Methods#m12c(). => method m12c (param x: Object { abstract method y => Int; abstract val method x Int }): Nothing
-example/Methods#m12c().(x) => param x: Object { abstract method y => Int; abstract val method x Int }
-example/Methods#m13(). => method m13 (param x: Int @unchecked): Nothing
+example/Methods#m12b(). => method m12b (): Nothing
+example/Methods#m12b().(x) => param x: Object {}
+example/Methods#m12c(). => method m12c (): Nothing
+example/Methods#m12c().(x) => param x: Object {}
+example/Methods#m13(). => method m13 (): Nothing
 example/Methods#m13().(x) => param x: Int @unchecked
-example/Methods#m15(). => method m15 (param x: => Int): Nothing
+example/Methods#m15(). => method m15 (): Nothing
 example/Methods#m15().(x) => param x: => Int
-example/Methods#m16(). => method m16 (param x: Int*): Nothing
+example/Methods#m16(). => method m16 (): Nothing
 example/Methods#m16().(x) => param x: Int*
-example/Methods#m17(). => method m17 (param a: Int): Nothing
+example/Methods#m17(). => method m17 (): Nothing
 example/Methods#m17().(a) => param a: Int
-example/Methods#m17(+1). => method m17 (param b: String): Nothing
+example/Methods#m17(+1). => method m17 (): Nothing
 example/Methods#m17(+1).(b) => param b: String
 example/Methods#m17. => final object m17 extends Object { self: m17.type => +2 decls }
 example/Methods#m17.m(). => method m (): Nothing
-example/Methods#m18(). => method m18 (param a: Int): Nothing
+example/Methods#m18(). => method m18 (): Nothing
 example/Methods#m18().(a) => param a: Int
-example/Methods#m18(+1). => method m18 (param b: String): Nothing
+example/Methods#m18(+1). => method m18 (): Nothing
 example/Methods#m18(+1).(b) => param b: String
 example/Methods#m18. => val method m18 m17.type
 example/Methods#m19$default$2(). => method m19$default$2 => Int @uncheckedVariance
-example/Methods#m19$default$3(). => method m19$default$3 (param x: Int, param y: Int): Int @uncheckedVariance
+example/Methods#m19$default$3(). => method m19$default$3 (): Int @uncheckedVariance
 example/Methods#m19$default$3().(x) => param x: Int
 example/Methods#m19$default$3().(y) => param y: Int
-example/Methods#m19(). => method m19 (param x: Int, param y: Int)(param z: Int): Nothing
+example/Methods#m19(). => method m19 ()(): Nothing
 example/Methods#m19().(x) => param x: Int
 example/Methods#m19().(y) => param y: Int
 example/Methods#m19().(z) => param z: Int
-example/Methods#m20(). => method m20 (param a: Int): Nothing
+example/Methods#m20(). => method m20 (): Nothing
 example/Methods#m20().(a) => param a: Int
-example/Methods#m20(+1). => method m20 (param b: String): Nothing
+example/Methods#m20(+1). => method m20 (): Nothing
 example/Methods#m20(+1).(b) => param b: String
 example/Methods#m20(+2). => var method m20 m17.type
 local0 => abstract val method x Int
@@ -2498,7 +2498,7 @@ example/NamedApplyBlockCaseClassConstruction.Msg#body. => val method body String
 example/NamedApplyBlockCaseClassConstruction.Msg#copy$default$1(). => method copy$default$1 => String @uncheckedVariance
 example/NamedApplyBlockCaseClassConstruction.Msg#copy$default$2(). => method copy$default$2 => String @uncheckedVariance
 example/NamedApplyBlockCaseClassConstruction.Msg#copy$default$3(). => method copy$default$3 => String @uncheckedVariance
-example/NamedApplyBlockCaseClassConstruction.Msg#copy(). => method copy (param body: String, param head: String, param tail: String): Msg
+example/NamedApplyBlockCaseClassConstruction.Msg#copy(). => method copy (): Msg
 example/NamedApplyBlockCaseClassConstruction.Msg#copy().(body) => param body: String
 example/NamedApplyBlockCaseClassConstruction.Msg#copy().(head) => param head: String
 example/NamedApplyBlockCaseClassConstruction.Msg#copy().(tail) => param tail: String
@@ -2506,12 +2506,12 @@ example/NamedApplyBlockCaseClassConstruction.Msg#head. => val method head String
 example/NamedApplyBlockCaseClassConstruction.Msg#tail. => val method tail String
 example/NamedApplyBlockCaseClassConstruction.Msg. => final object Msg extends Object { self: Msg.type => +5 decls }
 example/NamedApplyBlockCaseClassConstruction.Msg.$lessinit$greater$default$2(). => method $lessinit$greater$default$2 => String @uncheckedVariance
-example/NamedApplyBlockCaseClassConstruction.Msg.apply(). => method apply (param body: String, param head: String, param tail: String): Msg
+example/NamedApplyBlockCaseClassConstruction.Msg.apply(). => method apply (): Msg
 example/NamedApplyBlockCaseClassConstruction.Msg.apply().(body) => param body: String
 example/NamedApplyBlockCaseClassConstruction.Msg.apply().(head) => param head: String
 example/NamedApplyBlockCaseClassConstruction.Msg.apply().(tail) => param tail: String
 example/NamedApplyBlockCaseClassConstruction.Msg.toString(). => method toString => String
-example/NamedApplyBlockCaseClassConstruction.Msg.unapply(). => method unapply (param x$1: Msg): Msg
+example/NamedApplyBlockCaseClassConstruction.Msg.unapply(). => method unapply (): Msg
 example/NamedApplyBlockCaseClassConstruction.Msg.unapply().(x$1) => param x$1: Msg
 example/NamedApplyBlockCaseClassConstruction.bodyText. => val method bodyText String
 example/NamedApplyBlockCaseClassConstruction.msg. => val method msg Msg
@@ -2520,7 +2520,7 @@ example/NamedApplyBlockMethods.baseCase(). => method baseCase => Int
 example/NamedApplyBlockMethods.foo$default$1(). => method foo$default$1 => Int @uncheckedVariance
 example/NamedApplyBlockMethods.foo$default$2(). => method foo$default$2 => Int @uncheckedVariance
 example/NamedApplyBlockMethods.foo$default$3(). => method foo$default$3 => Int @uncheckedVariance
-example/NamedApplyBlockMethods.foo(). => method foo (param a: Int, param b: Int, param c: Int): Int
+example/NamedApplyBlockMethods.foo(). => method foo (): Int
 example/NamedApplyBlockMethods.foo().(a) => param a: Int
 example/NamedApplyBlockMethods.foo().(b) => param b: Int
 example/NamedApplyBlockMethods.foo().(c) => param c: Int
@@ -2592,14 +2592,14 @@ example/NamedArguments#User#_1(). => method _1 => String
 example/NamedArguments#User#`<init>`(). => primary ctor <init> (val param name: String): User
 example/NamedArguments#User#`<init>`().(name) => val param name: String
 example/NamedArguments#User#copy$default$1(). => method copy$default$1 => String @uncheckedVariance
-example/NamedArguments#User#copy(). => method copy (param name: String): User
+example/NamedArguments#User#copy(). => method copy (): User
 example/NamedArguments#User#copy().(name) => param name: String
 example/NamedArguments#User#name. => val method name String
 example/NamedArguments#User. => final object User extends Object { self: User.type => +4 decls }
-example/NamedArguments#User.apply(). => method apply (param name: String): User
+example/NamedArguments#User.apply(). => method apply (): User
 example/NamedArguments#User.apply().(name) => param name: String
 example/NamedArguments#User.toString(). => method toString => String
-example/NamedArguments#User.unapply(). => method unapply (param x$1: User): User
+example/NamedArguments#User.unapply(). => method unapply (): User
 example/NamedArguments#User.unapply().(x$1) => param x$1: User
 example/NamedArguments#`<init>`(). => primary ctor <init> (): NamedArguments
 
@@ -2791,20 +2791,20 @@ example/C#T1# => type T1
 example/C#T2# => type T2 
 example/C#`<init>`(). => primary ctor <init> (): C
 example/RecOrRefined$package. => final package object example extends Object { self: example.type => +6 decls }
-example/RecOrRefined$package.C2# => type C2  = C { type T2  = T1; type T1  }
-example/RecOrRefined$package.Person# => type Person  = Record { abstract val method age Int; abstract val method name String }
-example/RecOrRefined$package.m1(). => method m1 (param a: Int { abstract val method x Int }): Nothing
-example/RecOrRefined$package.m1().(a) => param a: Int { abstract val method x Int }
-example/RecOrRefined$package.m2(). => method m2 (param x: Object { abstract method y => Int; abstract val method x Int }): Nothing
-example/RecOrRefined$package.m2().(x) => param x: Object { abstract method y => Int; abstract val method x Int }
-example/RecOrRefined$package.m3(). => method m3 (param x: Object { type z ; abstract method y => Int; abstract val method x Int }): Nothing
-example/RecOrRefined$package.m3().(x) => param x: Object { type z ; abstract method y => Int; abstract val method x Int }
+example/RecOrRefined$package.C2# => type C2  = C {}
+example/RecOrRefined$package.Person# => type Person  = Record {}
+example/RecOrRefined$package.m1(). => method m1 (): Nothing
+example/RecOrRefined$package.m1().(a) => param a: Int {}
+example/RecOrRefined$package.m2(). => method m2 (): Nothing
+example/RecOrRefined$package.m2().(x) => param x: Object {}
+example/RecOrRefined$package.m3(). => method m3 (): Nothing
+example/RecOrRefined$package.m3().(x) => param x: Object {}
 example/Record# => class Record extends Object with Selectable { self: Record => +4 decls }
 example/Record#`<init>`(). => primary ctor <init> (param elems: Tuple2[String, Any]*): Record
 example/Record#`<init>`().(elems) => param elems: Tuple2[String, Any]*
 example/Record#elems. => private[this] val method elems Tuple2[String, Any]*
 example/Record#fields. => private[this] val method fields Map[String, Any]
-example/Record#selectDynamic(). => method selectDynamic (param name: String): Any
+example/Record#selectDynamic(). => method selectDynamic (): Any
 example/Record#selectDynamic().(name) => param name: String
 local0 => abstract val method x Int
 local1 => abstract val method x Int
@@ -2886,7 +2886,7 @@ Occurrences => 13 entries
 
 Symbols:
 ext/RightAssociativeExtension$package. => final package object ext extends Object { self: ext.type => +3 decls }
-ext/RightAssociativeExtension$package.`:*:`(). => method :*: (param i: Int)(param s: String): Tuple2[String, Int]
+ext/RightAssociativeExtension$package.`:*:`(). => method :*: ()(): Tuple2[String, Int]
 ext/RightAssociativeExtension$package.`:*:`().(i) => param i: Int
 ext/RightAssociativeExtension$package.`:*:`().(s) => param s: String
 ext/RightAssociativeExtension$package.b. => val method b Tuple2[String, Int]
@@ -2937,26 +2937,26 @@ Occurrences:
 [2:0..2:0): <- selfs/B#`<init>`().
 [2:6..2:7): B <- selfs/B#
 [4:6..4:8): C1 <- selfs/C1#
-[4:17..4:18): B -> selfs/B#
 [4:17..4:17): <- selfs/C1#`<init>`().
+[4:17..4:18): B -> selfs/B#
 [4:18..4:18): -> selfs/B#`<init>`().
 [4:21..4:25): self <- local0
 [7:6..7:8): C2 <- selfs/C2#
-[7:17..7:18): B -> selfs/B#
 [7:17..7:17): <- selfs/C2#`<init>`().
+[7:17..7:18): B -> selfs/B#
 [7:18..7:18): -> selfs/B#`<init>`().
 [7:21..7:25): self <- local1
 [7:27..7:28): B -> selfs/B#
 [10:6..10:8): C3 <- selfs/C3#
-[10:17..10:18): B -> selfs/B#
 [10:17..10:17): <- selfs/C3#`<init>`().
+[10:17..10:18): B -> selfs/B#
 [10:18..10:18): -> selfs/B#`<init>`().
 [10:21..10:25): self <- local2
 [10:27..10:28): B -> selfs/B#
 [10:34..10:36): C1 -> selfs/C1#
 [13:6..13:8): C6 <- selfs/C6#
-[13:17..13:18): B -> selfs/B#
 [13:17..13:17): <- selfs/C6#`<init>`().
+[13:17..13:18): B -> selfs/B#
 [13:18..13:18): -> selfs/B#`<init>`().
 [13:27..13:28): B -> selfs/B#
 
@@ -2995,7 +2995,7 @@ example/Synthetic#s.Bar#copy(). => method copy (): Bar
 example/Synthetic#s.Bar. => final object Bar extends Object { self: Bar.type => +4 decls }
 example/Synthetic#s.Bar.apply(). => method apply (): Bar
 example/Synthetic#s.Bar.toString(). => method toString => String
-example/Synthetic#s.Bar.unapply(). => method unapply (param x$1: Bar): true
+example/Synthetic#s.Bar.unapply(). => method unapply (): true
 example/Synthetic#s.Bar.unapply().(x$1) => param x$1: Bar
 example/Synthetic#s.apply(). => method apply (): Int
 example/Synthetic#x. => val method x Int
@@ -3017,8 +3017,8 @@ Occurrences:
 [2:13..2:21): language -> scala/language.
 [2:22..2:41): implicitConversions -> scala/language.implicitConversions.
 [4:6..4:15): Synthetic <- example/Synthetic#
-[5:2..5:6): List -> scala/package.List.
 [5:2..5:2): <- example/Synthetic#`<init>`().
+[5:2..5:6): List -> scala/package.List.
 [5:6..5:6): -> scala/collection/IterableFactory#apply().
 [5:10..5:13): map -> scala/collection/immutable/List#map().
 [5:16..5:17): + -> scala/Int#`+`(+4).
@@ -3170,8 +3170,8 @@ Occurrences:
 [46:7..46:8): a -> local8
 [46:9..46:10): < -> scala/Int#`<`(+3).
 [46:11..46:12): b -> local9
-[46:12..46:12): -> scala/concurrent/ExecutionContext.Implicits.global().
 [46:12..46:12): -> scala/concurrent/Future#map().
+[46:12..46:12): -> scala/concurrent/ExecutionContext.Implicits.global().
 [47:10..47:11): a -> local8
 [47:11..47:11): -> scala/concurrent/ExecutionContext.Implicits.global().
 
@@ -3215,8 +3215,8 @@ Occurrences:
 [11:0..11:0): <- traits/C#`<init>`().
 [11:6..11:7): C <- traits/C#
 [12:6..12:7): V <- traits/V#
-[12:10..12:14): self <- local2
 [12:10..12:10): <- traits/V#`<init>`().
+[12:10..12:14): self <- local2
 [12:16..12:17): C -> traits/C#
 
 expect/ValPattern.scala
@@ -3233,11 +3233,11 @@ Occurrences => 63 entries
 Symbols:
 example/ValPattern# => class ValPattern extends Object { self: ValPattern => +14 decls }
 example/ValPattern#`<init>`(). => primary ctor <init> (): ValPattern
-example/ValPattern#`leftVar_=`(). => var method leftVar_= (param x$1: Int): Unit
+example/ValPattern#`leftVar_=`(). => var method leftVar_= (): Unit
 example/ValPattern#`leftVar_=`().(x$1) => param x$1: Int
-example/ValPattern#`number1Var_=`(). => var method number1Var_= (param x$1: Int): Unit
+example/ValPattern#`number1Var_=`(). => var method number1Var_= (): Unit
 example/ValPattern#`number1Var_=`().(x$1) => param x$1: Int
-example/ValPattern#`rightVar_=`(). => var method rightVar_= (param x$1: Int): Unit
+example/ValPattern#`rightVar_=`(). => var method rightVar_= (): Unit
 example/ValPattern#`rightVar_=`().(x$1) => param x$1: Int
 example/ValPattern#app(). => method app (): Unit
 example/ValPattern#left. => val method left Int
@@ -3339,17 +3339,17 @@ example/Vals#`<init>`(). => primary ctor <init> (param p: Int, val param xp: Int
 example/Vals#`<init>`().(p) => param p: Int
 example/Vals#`<init>`().(xp) => val param xp: Int
 example/Vals#`<init>`().(yp) => var param yp: Int
-example/Vals#`explicitSetter_=`(). => method explicitSetter_= (param x: Int): Unit
+example/Vals#`explicitSetter_=`(). => method explicitSetter_= (): Unit
 example/Vals#`explicitSetter_=`().(x) => param x: Int
-example/Vals#`yam_=`(). => var method yam_= (param x$1: Int): Unit
+example/Vals#`yam_=`(). => var method yam_= (): Unit
 example/Vals#`yam_=`().(x$1) => param x$1: Int
-example/Vals#`yfm_=`(). => final var method yfm_= (param x$1: Int): Unit
+example/Vals#`yfm_=`(). => final var method yfm_= (): Unit
 example/Vals#`yfm_=`().(x$1) => param x$1: Int
-example/Vals#`yim_=`(). => var method yim_= (param x$1: Int): Unit
+example/Vals#`yim_=`(). => var method yim_= (): Unit
 example/Vals#`yim_=`().(x$1) => param x$1: Int
-example/Vals#`ym_=`(). => var method ym_= (param x$1: Int): Unit
+example/Vals#`ym_=`(). => var method ym_= (): Unit
 example/Vals#`ym_=`().(x$1) => param x$1: Int
-example/Vals#`yp_=`(). => var method yp_= (param x$1: Int): Unit
+example/Vals#`yp_=`(). => var method yp_= (): Unit
 example/Vals#`yp_=`().(x$1) => param x$1: Int
 example/Vals#explicitSetter(). => method explicitSetter => Int
 example/Vals#m(). => method m => Unit
@@ -3519,9 +3519,9 @@ Occurrences => 11 entries
 Symbols:
 example/Vararg# => class Vararg extends Object { self: Vararg => +3 decls }
 example/Vararg#`<init>`(). => primary ctor <init> (): Vararg
-example/Vararg#add1(). => method add1 (param a: Int*): Unit
+example/Vararg#add1(). => method add1 (): Unit
 example/Vararg#add1().(a) => param a: Int*
-example/Vararg#add2(). => method add2 (param a: Seq[Int]*): Unit
+example/Vararg#add2(). => method add2 (): Unit
 example/Vararg#add2().(a) => param a: Seq[Int]*
 
 Occurrences:
@@ -3554,21 +3554,21 @@ exports/example/Codec#[T] => typeparam T
 exports/example/Codec#`<init>`(). => primary ctor <init> [typeparam T ](param decode: Decoder[T], param encode: Encoder[T]): Codec[T]
 exports/example/Codec#`<init>`().(decode) => param decode: Decoder[T]
 exports/example/Codec#`<init>`().(encode) => param encode: Encoder[T]
-exports/example/Codec#decode(). => final method decode (param a: Array[Byte]): T
+exports/example/Codec#decode(). => final method decode (): T
 exports/example/Codec#decode().(a) => param a: Array[Byte]
 exports/example/Codec#decode. => private[this] val method decode Decoder[T]
-exports/example/Codec#encode(). => final method encode (param t: T): Array[Byte]
+exports/example/Codec#encode(). => final method encode (): Array[Byte]
 exports/example/Codec#encode().(t) => param t: T
 exports/example/Codec#encode. => private[this] val method encode Encoder[T]
 exports/example/Decoder# => trait Decoder [covariant typeparam T ] extends Object { self: Decoder[T] => +3 decls }
 exports/example/Decoder#[T] => covariant typeparam T 
 exports/example/Decoder#`<init>`(). => primary ctor <init> [covariant typeparam T ](): Decoder[T]
-exports/example/Decoder#decode(). => abstract method decode (param a: Array[Byte]): T
+exports/example/Decoder#decode(). => abstract method decode (): T
 exports/example/Decoder#decode().(a) => param a: Array[Byte]
 exports/example/Encoder# => trait Encoder [contravariant typeparam T ] extends Object { self: Encoder[T] => +3 decls }
 exports/example/Encoder#[T] => contravariant typeparam T 
 exports/example/Encoder#`<init>`(). => primary ctor <init> [contravariant typeparam T ](): Encoder[T]
-exports/example/Encoder#encode(). => abstract method encode (param t: T): Array[Byte]
+exports/example/Encoder#encode(). => abstract method encode (): Array[Byte]
 exports/example/Encoder#encode().(t) => param t: T
 
 Occurrences:
@@ -3729,7 +3729,7 @@ Occurrences => 12 entries
 
 Symbols:
 inlinedefs/FakePredef. => final object FakePredef extends Object { self: FakePredef.type => +2 decls }
-inlinedefs/FakePredef.assert(). => final macro assert (param assertion: Boolean): Unit
+inlinedefs/FakePredef.assert(). => final macro assert (): Unit
 inlinedefs/FakePredef.assert().(assertion) => param assertion: Boolean
 
 Occurrences:
@@ -3765,8 +3765,8 @@ local0 => val local local: Int
 Occurrences:
 [0:8..0:15): example <- example/
 [2:7..2:17): local-file <- example/`local-file`#
-[3:2..3:9): locally -> scala/Predef.locally().
 [3:2..3:2): <- example/`local-file`#`<init>`().
+[3:2..3:9): locally -> scala/Predef.locally().
 [4:8..4:13): local <- local0
 [5:4..5:9): local -> local0
 [5:10..5:11): + -> scala/Int#`+`(+4).
@@ -3793,7 +3793,7 @@ local6 => val local Nat_this: Succ[local7] forSome { _ }
 recursion/Nats. => final object Nats extends Object { self: Nats.type => +9 decls }
 recursion/Nats.Nat# => sealed trait Nat extends Object { self: Nat => +3 decls }
 recursion/Nats.Nat#`++`(). => macro ++ => Succ[Nat.this.type]
-recursion/Nats.Nat#`+`(). => macro + (param that: Nat): Nat
+recursion/Nats.Nat#`+`(). => macro + (): Nat
 recursion/Nats.Nat#`+`().(that) => param that: Nat
 recursion/Nats.Nat#`<init>`(). => primary ctor <init> (): Nat
 recursion/Nats.Succ# => case class Succ [typeparam N ] extends Object with Nat with Product with Serializable { self: Succ[N] => +6 decls }
@@ -3803,21 +3803,21 @@ recursion/Nats.Succ#`<init>`(). => primary ctor <init> [typeparam N ](val param 
 recursion/Nats.Succ#`<init>`().(p) => val param p: N
 recursion/Nats.Succ#copy$default$1(). => method copy$default$1 [typeparam N ]: N
 recursion/Nats.Succ#copy$default$1().[N] => typeparam N 
-recursion/Nats.Succ#copy(). => method copy [typeparam N ](param p: N): Succ[N]
+recursion/Nats.Succ#copy(). => method copy [typeparam N ](): Succ[N]
 recursion/Nats.Succ#copy().(p) => param p: N
 recursion/Nats.Succ#copy().[N] => typeparam N 
 recursion/Nats.Succ#p. => val method p N
 recursion/Nats.Succ. => final object Succ extends Object { self: Succ.type => +4 decls }
-recursion/Nats.Succ.apply(). => method apply [typeparam N ](param p: N): Succ[N]
+recursion/Nats.Succ.apply(). => method apply (): Succ[<?>]
 recursion/Nats.Succ.apply().(p) => param p: N
 recursion/Nats.Succ.apply().[N] => typeparam N 
 recursion/Nats.Succ.toString(). => method toString => String
-recursion/Nats.Succ.unapply(). => method unapply [typeparam N ](param x$1: Succ[N]): Succ[N]
+recursion/Nats.Succ.unapply(). => method unapply (): Succ[<?>]
 recursion/Nats.Succ.unapply().(x$1) => param x$1: Succ[N]
 recursion/Nats.Succ.unapply().[N] => typeparam N 
 recursion/Nats.Zero. => final case object Zero extends Object with Nat with Product with Serializable { self: Zero.type => +1 decls }
 recursion/Nats.j31. => val method j31 Int
-recursion/Nats.toIntg(). => macro toIntg (param n: Nat): Int
+recursion/Nats.toIntg(). => macro toIntg (): Int
 recursion/Nats.toIntg().(n) => param n: Nat
 
 Occurrences:
@@ -3867,8 +3867,8 @@ Occurrences:
 [23:6..23:9): j31 <- recursion/Nats.j31.
 [23:12..23:18): toIntg -> recursion/Nats.toIntg().
 [23:19..23:23): Zero -> recursion/Nats.Zero.
-[23:24..23:24): -> recursion/Nats.Zero.
 [23:24..23:32): ++.++.++ <- local4
+[23:24..23:24): -> recursion/Nats.Zero.
 [23:24..23:26): ++ -> recursion/Nats.Nat#`++`().
 [23:27..23:35): ++.++ +  <- local5
 [23:27..23:29): ++ -> recursion/Nats.Nat#`++`().
@@ -3895,7 +3895,7 @@ a/Definitions.D# => class D extends Object { self: D => +1 decls }
 a/Definitions.D#`<init>`(). => primary ctor <init> (): D
 a/Definitions.E# => trait E extends Object { self: E => +1 decls }
 a/Definitions.E#`<init>`(). => primary ctor <init> (): E
-a/Definitions.`b_=`(). => var method b_= (param x$1: Int): Unit
+a/Definitions.`b_=`(). => var method b_= (): Unit
 a/Definitions.`b_=`().(x$1) => param x$1: Int
 a/Definitions.a. => val method a Int
 a/Definitions.b(). => var method b Int
@@ -3930,7 +3930,7 @@ flags/p/package.AA#`<init>`(). => primary ctor <init> (param x: Int, val param y
 flags/p/package.AA#`<init>`().(x) => param x: Int
 flags/p/package.AA#`<init>`().(y) => val param y: Int
 flags/p/package.AA#`<init>`().(z) => var param z: Int
-flags/p/package.AA#`z_=`(). => var method z_= (param x$1: Int): Unit
+flags/p/package.AA#`z_=`(). => var method z_= (): Unit
 flags/p/package.AA#`z_=`().(x$1) => param x$1: Int
 flags/p/package.AA#x. => private[this] val method x Int
 flags/p/package.AA#y. => val method y Int
@@ -3944,7 +3944,7 @@ flags/p/package.C#`<init>`().(x) => param x: T
 flags/p/package.C#`<init>`().(y) => param y: U
 flags/p/package.C#`<init>`().(z) => param z: V
 flags/p/package.C#`<init>`(+1). => ctor <init> [covariant typeparam T , contravariant typeparam U , typeparam V ](): C[T, U, V]
-flags/p/package.C#`<init>`(+2). => ctor <init> [covariant typeparam T , contravariant typeparam U , typeparam V ](param t: T): C[T, U, V]
+flags/p/package.C#`<init>`(+2). => ctor <init> [covariant typeparam T , contravariant typeparam U , typeparam V ](): C[T, U, V]
 flags/p/package.C#`<init>`(+2).(t) => param t: T
 flags/p/package.C#w(). => abstract method w => Int
 flags/p/package.C#x. => private[this] val method x T
@@ -3954,7 +3954,7 @@ flags/p/package.S# => class S [typeparam T ] extends Object { self: S[T] => +2 d
 flags/p/package.S#[T] => typeparam T 
 flags/p/package.S#`<init>`(). => primary ctor <init> [typeparam T ](): S[T]
 flags/p/package.T1# => type T1  = Int
-flags/p/package.T2# => type T2 [typeparam T ] = S[T]
+flags/p/package.T2# => type T2  = S[<?>]
 flags/p/package.T2#[T] => typeparam T 
 flags/p/package.U# => type U 
 flags/p/package.V# => type V  >: Int
@@ -3963,14 +3963,14 @@ flags/p/package.Y# => final class Y extends Object { self: Y => +1 decls }
 flags/p/package.Y#`<init>`(). => primary ctor <init> (): Y
 flags/p/package.Z# => sealed trait Z extends Object { self: Z => +1 decls }
 flags/p/package.Z#`<init>`(). => primary ctor <init> (): Z
-flags/p/package.`y_=`(). => protected var method y_= (param x$1: Int): Unit
+flags/p/package.`y_=`(). => protected var method y_= (): Unit
 flags/p/package.`y_=`().(x$1) => param x$1: Int
-flags/p/package.m(). => macro m [typeparam TT ]: Int
+flags/p/package.m(). => macro m : Int
 flags/p/package.m().[TT] => typeparam TT 
 flags/p/package.x. => private[p] lazy val method x Int
 flags/p/package.xs1. => val method xs1 Nothing
 flags/p/package.y(). => protected implicit var method y Int
-flags/p/package.z(). => method z (param pp: Int): Int
+flags/p/package.z(). => method z (): Int
 flags/p/package.z().(pp) => param pp: Int
 local0 => val local xs2: Nothing
 local1 => case val method t 
@@ -4073,13 +4073,13 @@ Occurrences => 250 entries
 Symbols:
 local0 => abstract method k => Int
 local1 => abstract method k => Int
-local2 => method k => Int
-local3 => final class $anon extends Object { self: $anon => +2 decls }
+local2 => final class $anon extends Object { self: $anon => +2 decls }
+local4 => method k => Int
 local5 => final class $anon extends M with N { self: $anon => +1 decls }
-local7 => method k => Int
-local8 => final class $anon extends M with N { self: $anon => +2 decls }
-local13 => typeparam T 
-local14 => type L [typeparam T ] = List[T]
+local7 => final class $anon extends M with N { self: $anon => +2 decls }
+local9 => method k => Int
+local13 => type L  = List[<?>]
+local14 => typeparam T 
 types/B# => class B extends Object { self: B => +1 decls }
 types/B#`<init>`(). => primary ctor <init> (): B
 types/C# => class C extends Object { self: C => +1 decls }
@@ -4089,14 +4089,14 @@ types/Foo#_1(). => method _1 => "abc"
 types/Foo#`<init>`(). => primary ctor <init> (val param s: "abc"): Foo
 types/Foo#`<init>`().(s) => val param s: "abc"
 types/Foo#copy$default$1(). => method copy$default$1 => "abc" @uncheckedVariance
-types/Foo#copy(). => method copy (param s: "abc"): Foo
+types/Foo#copy(). => method copy (): Foo
 types/Foo#copy().(s) => param s: "abc"
 types/Foo#s. => val method s "abc"
 types/Foo. => final object Foo extends Object { self: Foo.type => +6 decls }
-types/Foo.apply(). => method apply (param s: "abc"): Foo
+types/Foo.apply(). => method apply (): Foo
 types/Foo.apply().(s) => param s: "abc"
 types/Foo.toString(). => method toString => String
-types/Foo.unapply(). => method unapply (param x$1: Foo): Foo
+types/Foo.unapply(). => method unapply (): Foo
 types/Foo.unapply().(x$1) => param x$1: Foo
 types/Foo.x. => val method x "abc" @deprecated
 types/Foo.y. => val method y "abc"
@@ -4117,7 +4117,7 @@ types/T#x. => val method x X
 types/Test. => final object Test extends Object { self: Test.type => +10 decls }
 types/Test.C# => class C extends M { self: C => +42 decls }
 types/Test.C#ByNameType. => final object ByNameType extends Object { self: ByNameType.type => +2 decls }
-types/Test.C#ByNameType.m1(). => method m1 (param x: => Int): Int
+types/Test.C#ByNameType.m1(). => method m1 (): Int
 types/Test.C#ByNameType.m1().(x) => param x: => Int
 types/Test.C#ClassInfoType1. => final object ClassInfoType1 extends Object { self: ClassInfoType1.type => +1 decls }
 types/Test.C#ClassInfoType2# => class ClassInfoType2 extends B { self: ClassInfoType2 => +2 decls }
@@ -4130,9 +4130,9 @@ types/Test.C#Either. => val method Either Either.type
 types/Test.C#MethodType. => final object MethodType extends Object { self: MethodType.type => +7 decls }
 types/Test.C#MethodType.m3(). => method m3 => Int
 types/Test.C#MethodType.m4(). => method m4 (): Int
-types/Test.C#MethodType.m5(). => method m5 (param x: Int): Int
+types/Test.C#MethodType.m5(). => method m5 (): Int
 types/Test.C#MethodType.m5().(x) => param x: Int
-types/Test.C#MethodType.m6(). => method m6 [typeparam T ](param x: T): T
+types/Test.C#MethodType.m6(). => method m6 (): <?>
 types/Test.C#MethodType.m6().(x) => param x: T
 types/Test.C#MethodType.m6().[T] => typeparam T 
 types/Test.C#MethodType.x1(). => method x1 => Int
@@ -4141,30 +4141,30 @@ types/Test.C#RepeatedType# => case class RepeatedType extends Object with Produc
 types/Test.C#RepeatedType#_1(). => method _1 => String*
 types/Test.C#RepeatedType#`<init>`(). => primary ctor <init> (val param s: String*): RepeatedType
 types/Test.C#RepeatedType#`<init>`().(s) => val param s: String*
-types/Test.C#RepeatedType#m1(). => method m1 (param x: Int*): Int
+types/Test.C#RepeatedType#m1(). => method m1 (): Int
 types/Test.C#RepeatedType#m1().(x) => param x: Int*
 types/Test.C#RepeatedType#s. => val method s String*
 types/Test.C#RepeatedType. => final object RepeatedType extends Object { self: RepeatedType.type => +4 decls }
-types/Test.C#RepeatedType.apply(). => method apply (param s: String*): RepeatedType
+types/Test.C#RepeatedType.apply(). => method apply (): RepeatedType
 types/Test.C#RepeatedType.apply().(s) => param s: String*
 types/Test.C#RepeatedType.toString(). => method toString => String
-types/Test.C#RepeatedType.unapplySeq(). => method unapplySeq (param x$1: RepeatedType): RepeatedType
+types/Test.C#RepeatedType.unapplySeq(). => method unapplySeq (): RepeatedType
 types/Test.C#RepeatedType.unapplySeq().(x$1) => param x$1: RepeatedType
 types/Test.C#TypeType. => final object TypeType extends Object { self: TypeType.type => +6 decls }
 types/Test.C#TypeType.T1# => type T1 
 types/Test.C#TypeType.T4# => type T4  = C
-types/Test.C#TypeType.T5# => type T5 [typeparam U ] = U
+types/Test.C#TypeType.T5# => type T5  = <?>
 types/Test.C#TypeType.T5#[U] => typeparam U 
-types/Test.C#TypeType.m2(). => method m2 [typeparam T2  = C]: Nothing
+types/Test.C#TypeType.m2(). => method m2 : Nothing
 types/Test.C#TypeType.m2().[T2] => typeparam T2  = C
-types/Test.C#TypeType.m3(). => method m3 [typeparam M3 ]: Nothing
+types/Test.C#TypeType.m3(). => method m3 : Nothing
 types/Test.C#TypeType.m3().[M3] => typeparam M3 
 types/Test.C#`<init>`(). => primary ctor <init> (): C
 types/Test.C#annType1. => val method annType1 T @ann[T]
 types/Test.C#annType2. => val method annType2 T @ann1 @ann2
-types/Test.C#compoundType1. => val method compoundType1 Object { abstract method k => Int }
+types/Test.C#compoundType1. => val method compoundType1 Object {}
 types/Test.C#compoundType2. => val method compoundType2 M & N
-types/Test.C#compoundType3. => val method compoundType3 M & N { abstract method k => Int }
+types/Test.C#compoundType3. => val method compoundType3 M & N {}
 types/Test.C#compoundType4. => val method compoundType4 Object
 types/Test.C#compoundType5. => val method compoundType5 M & N
 types/Test.C#compoundType6. => val method compoundType6 M & N
@@ -4179,7 +4179,7 @@ types/Test.C#superType2. => val method superType2 Int
 types/Test.C#superType3. => val method superType3 Int
 types/Test.C#thisType1. => val method thisType1 C.this.type
 types/Test.C#thisType2. => val method thisType2 C.this.type
-types/Test.C#typeLambda1(). => method typeLambda1 [typeparam M ]: Nothing
+types/Test.C#typeLambda1(). => method typeLambda1 : Nothing
 types/Test.C#typeLambda1().[M] => typeparam M 
 types/Test.C#typeRef1. => val method typeRef1 C
 types/Test.C#typeRef2. => val method typeRef2 p.C
@@ -4231,13 +4231,13 @@ Occurrences:
 [5:33..5:43): annotation -> scala/annotation/
 [5:44..5:60): StaticAnnotation -> scala/annotation/StaticAnnotation#
 [6:6..6:10): ann1 <- types/ann1#
-[6:19..6:24): scala -> scala/
 [6:19..6:19): <- types/ann1#`<init>`().
+[6:19..6:24): scala -> scala/
 [6:25..6:35): annotation -> scala/annotation/
 [6:36..6:52): StaticAnnotation -> scala/annotation/StaticAnnotation#
 [7:6..7:10): ann2 <- types/ann2#
-[7:19..7:24): scala -> scala/
 [7:19..7:19): <- types/ann2#`<init>`().
+[7:19..7:24): scala -> scala/
 [7:25..7:35): annotation -> scala/annotation/
 [7:36..7:52): StaticAnnotation -> scala/annotation/StaticAnnotation#
 [9:0..9:0): <- types/B#`<init>`().
@@ -4245,8 +4245,8 @@ Occurrences:
 [11:0..11:0): <- types/C#`<init>`().
 [11:6..11:7): C <- types/C#
 [13:6..13:7): P <- types/P#
-[14:2..14:2): <- types/P#C#`<init>`().
 [14:2..14:2): <- types/P#`<init>`().
+[14:2..14:2): <- types/P#C#`<init>`().
 [14:8..14:9): C <- types/P#C#
 [15:2..15:2): <- types/P#X#`<init>`().
 [15:8..15:9): X <- types/P#X#
@@ -4254,8 +4254,8 @@ Occurrences:
 [16:14..16:15): X -> types/P#X#
 [16:15..16:15): -> types/P#X#`<init>`().
 [19:6..19:7): T <- types/T#
-[20:2..20:2): <- types/T#C#`<init>`().
 [20:2..20:2): <- types/T#`<init>`().
+[20:2..20:2): <- types/T#C#`<init>`().
 [20:8..20:9): C <- types/T#C#
 [21:2..21:2): <- types/T#X#`<init>`().
 [21:8..21:9): X <- types/T#X#
@@ -4282,8 +4282,8 @@ Occurrences:
 [38:11..38:14): Int -> scala/Int#
 [38:17..38:20): ??? -> scala/Predef.`???`().
 [41:8..41:9): C <- types/Test.C#
-[41:18..41:19): M -> types/Test.M#
 [41:18..41:18): <- types/Test.C#`<init>`().
+[41:18..41:19): M -> types/Test.M#
 [41:19..41:19): -> types/Test.M#`<init>`().
 [42:8..42:9): p <- types/Test.C#p.
 [42:16..42:17): P -> types/P#
@@ -4342,7 +4342,7 @@ Occurrences:
 [63:41..63:44): Int -> scala/Int#
 [63:49..63:52): ??? -> scala/Predef.`???`().
 [64:8..64:21): compoundType4 <- types/Test.C#compoundType4.
-[64:34..64:35): k <- local2
+[64:34..64:35): k <- local4
 [64:37..64:40): Int -> scala/Int#
 [64:43..64:46): ??? -> scala/Predef.`???`().
 [65:8..65:21): compoundType5 <- types/Test.C#compoundType5.
@@ -4353,7 +4353,7 @@ Occurrences:
 [66:28..66:29): M -> types/Test.M#
 [66:29..66:29): -> types/Test.M#`<init>`().
 [66:35..66:36): N -> types/Test.N#
-[66:43..66:44): k <- local7
+[66:43..66:44): k <- local9
 [66:46..66:49): Int -> scala/Int#
 [66:52..66:55): ??? -> scala/Predef.`???`().
 [68:8..68:16): annType1 <- types/Test.C#annType1.
@@ -4377,14 +4377,14 @@ Occurrences:
 [75:20..75:21): M <- types/Test.C#typeLambda1().[M]
 [75:28..75:31): ??? -> scala/Predef.`???`().
 [76:4..76:15): typeLambda1 -> types/Test.C#typeLambda1().
-[76:24..76:25): L <- local14
-[76:26..76:27): T <- local13
+[76:24..76:25): L <- local13
+[76:26..76:27): T <- local14
 [76:31..76:35): List -> scala/package.List#
-[76:36..76:37): T -> local13
+[76:36..76:37): T -> local14
 [78:11..78:25): ClassInfoType1 <- types/Test.C#ClassInfoType1.
 [79:10..79:24): ClassInfoType2 <- types/Test.C#ClassInfoType2#
-[79:33..79:34): B -> types/B#
 [79:33..79:33): <- types/Test.C#ClassInfoType2#`<init>`().
+[79:33..79:34): B -> types/B#
 [79:34..79:34): -> types/B#`<init>`().
 [79:41..79:42): x <- types/Test.C#ClassInfoType2#x().
 [80:10..80:24): ClassInfoType3 <- types/Test.C#ClassInfoType3#
@@ -4484,16 +4484,16 @@ _empty_/AnObject.Foo#_1(). => method _1 => Int
 _empty_/AnObject.Foo#`<init>`(). => primary ctor <init> (val param x: Int): Foo
 _empty_/AnObject.Foo#`<init>`().(x) => val param x: Int
 _empty_/AnObject.Foo#copy$default$1(). => method copy$default$1 => Int @uncheckedVariance
-_empty_/AnObject.Foo#copy(). => method copy (param x: Int): Foo
+_empty_/AnObject.Foo#copy(). => method copy (): Foo
 _empty_/AnObject.Foo#copy().(x) => param x: Int
 _empty_/AnObject.Foo#x. => val method x Int
 _empty_/AnObject.Foo. => final object Foo extends Object { self: Foo.type => +4 decls }
-_empty_/AnObject.Foo.apply(). => method apply (param x: Int): Foo
+_empty_/AnObject.Foo.apply(). => method apply (): Foo
 _empty_/AnObject.Foo.apply().(x) => param x: Int
 _empty_/AnObject.Foo.toString(). => method toString => String
-_empty_/AnObject.Foo.unapply(). => method unapply (param x$1: Foo): Foo
+_empty_/AnObject.Foo.unapply(). => method unapply (): Foo
 _empty_/AnObject.Foo.unapply().(x$1) => param x$1: Foo
-_empty_/AnObject.foo(). => method foo (param x: Int): Unit
+_empty_/AnObject.foo(). => method foo (): Unit
 _empty_/AnObject.foo().(x) => param x: Int
 _empty_/AnObject.foo(+1). => method foo (): Unit
 
@@ -4535,16 +4535,16 @@ Occurrences => 44 entries
 Symbols:
 _empty_/MyProgram# => final class MyProgram extends Object { self: MyProgram => +2 decls }
 _empty_/MyProgram#`<init>`(). => primary ctor <init> (): MyProgram
-_empty_/MyProgram#main(). => static method main (param args: Array[String]): Unit
+_empty_/MyProgram#main(). => static method main (): Unit
 _empty_/MyProgram#main().(args) => param args: Array[String]
 _empty_/toplevel$package. => final package object _empty_ extends Object { self: _empty_.type => +8 decls }
-_empty_/toplevel$package.MyProgram(). => method MyProgram (param times: Int): Unit
+_empty_/toplevel$package.MyProgram(). => method MyProgram (): Unit
 _empty_/toplevel$package.MyProgram().(times) => param times: Int
 _empty_/toplevel$package.a. => val method a ""
-_empty_/toplevel$package.combine(). => method combine (param x: Int)(param y: Int): Int
+_empty_/toplevel$package.combine(). => method combine ()(): Int
 _empty_/toplevel$package.combine().(x) => param x: Int
 _empty_/toplevel$package.combine().(y) => param y: Int
-_empty_/toplevel$package.combine(+1). => method combine (param x: Int, param y: Int, param z: Int): Int
+_empty_/toplevel$package.combine(+1). => method combine (): Int
 _empty_/toplevel$package.combine(+1).(x) => param x: Int
 _empty_/toplevel$package.combine(+1).(y) => param y: Int
 _empty_/toplevel$package.combine(+1).(z) => param z: Int
@@ -4577,14 +4577,14 @@ Occurrences:
 [2:46..2:47): z -> _empty_/toplevel$package.combine(+1).(z)
 [3:4..3:11): combine <- _empty_/toplevel$package.combine(+2).
 [4:4..4:7): foo <- _empty_/toplevel$package.foo().
+[5:0..5:0): <- _empty_/MyProgram#
+[5:0..5:0): <- _empty_/MyProgram#`<init>`().
 [5:0..5:0): -> _empty_/toplevel$package.MyProgram().
 [5:0..5:0): -> scala/util/CommandLineParser.parseArgument().
 [5:0..5:0): -> _empty_/MyProgram#main().(args)
 [5:0..5:0): -> scala/util/CommandLineParser.FromString.given_FromString_Int.
 [5:0..5:0): -> scala/util/CommandLineParser.showError().
 [5:0..5:0): -> local0
-[5:0..5:0): <- _empty_/MyProgram#`<init>`().
-[5:0..5:0): <- _empty_/MyProgram#
 [5:1..5:5): main -> scala/main#
 [5:10..5:19): MyProgram <- _empty_/toplevel$package.MyProgram().
 [5:20..5:25): times <- _empty_/toplevel$package.MyProgram().(times)
